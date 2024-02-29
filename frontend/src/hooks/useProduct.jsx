@@ -17,6 +17,16 @@ export function useProduct() {
             .catch(e => console.error(e));
     }, [setProducts]);
 
+    const getProductsFiltered = useCallback((filters) => {
+        ProductService.GetFiltered(filters)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setProducts(data);
+                }
+            })
+            .catch(e => console.error(e));
+    }, [setProducts]);
+
     const createProduct = useCallback((productData) => {
         ProductService.Create(productData)
             .then(({ data, status }) => {
@@ -43,6 +53,6 @@ export function useProduct() {
             });
     }, [products]);
     
-    return { products, setProducts, getProducts, createProduct, deleteProduct };
+    return { products, setProducts, getProducts, getProductsFiltered, createProduct, deleteProduct };
 
 }

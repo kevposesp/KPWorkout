@@ -38,16 +38,19 @@ Route::group([
     Route::post('/products', [ProductsController::class, 'store']);
     Route::put('/products/{id}', [ProductsController::class, 'update']);
     Route::delete('/products/{id}', [ProductsController::class, 'destroy']);
+    Route::post('/products/{id}/categories', [ProductsController::class, 'updateCategory']);
 
     // Categories
     Route::post('/categories', [CategoriesController::class, 'store']);
     Route::put('/categories/{id}', [CategoriesController::class, 'update']);
     Route::delete('/categories/{id}', [CategoriesController::class, 'destroy']);
+    Route::post('/categories/{id}/products', [CategoriesController::class, 'updateProduct']);
 
 });
 
 // Products
 Route::get('/products', [ProductsController::class, 'index']);
+Route::post('/products/filtered', [ProductsController::class, 'allFiltered']);
 Route::get('/products/{id}', [ProductsController::class, 'show']);
 
 // Categories

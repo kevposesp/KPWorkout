@@ -6,6 +6,10 @@ const ProductService = {
         return Api().get('products');
     },
 
+    GetFiltered(filters) {
+        return Api().post('products/filtered', filters);
+    },
+
     Create(productData) {
         return Api().post('products', productData);
     },

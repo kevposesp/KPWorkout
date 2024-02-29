@@ -26,6 +26,7 @@ function App() {
 
   // Client
   const Home = React.lazy(() => import("@/pages/client/Home"));
+  const Shop = React.lazy(() => import("@/pages/client/Shop"));
 
   return (
     <>
@@ -43,6 +44,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/home" element={<Home />} />
+                  <Route path='/shop' element={<Shop />} />
 
                   {/* you must be logged in */}
                   <Route element={<AuthGuard />}>
