@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ProductsController extends Controller
@@ -14,6 +16,19 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Products::all();
+
+        // Obtener el usuario autenticado, si existe
+        $user = User::findOrFail(auth()->user()->id);
+
+        // Si el usuario está autenticado, obtener sus productos favoritos
+        $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
+
+        // isFavotite
+        $products->transform(function ($product) use ($favoriteProducts) {
+            $product->is_favorite = in_array($product->id, $favoriteProducts);
+            return $product;
+        });
+
         return response()->json($products, 200);
     }
 
@@ -77,7 +92,19 @@ class ProductsController extends Controller
             }
         }
 
-        return response()->json($products->get(), 200);
+        // Obtener el usuario autenticado, si existe
+        $user = User::findOrFail(auth()->user()->id);
+
+        // Si el usuario está autenticado, obtener sus productos favoritos
+        $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
+
+        // Modificar los resultados para incluir información sobre si son favoritos o no
+        $products = $products->get()->map(function ($product) use ($favoriteProducts) {
+            $product->is_favorite = in_array($product->id, $favoriteProducts);
+            return $product;
+        });
+
+        return response()->json($products, 200);
     }
 
     /**
@@ -159,5 +186,33 @@ class ProductsController extends Controller
         // Si la relación no existe, la agregamos
         $product->categories()->attach($category_id);
         return response()->json(['message' => 'La categoría fue agregada al producto'], 200);
+    }
+
+    /**
+     * Add or remove a product from user's favorites.
+     */
+    public function toggleFavorite(Request $request, string $id)
+    {
+        // Obtener el usuario autenticado
+        $user = User::findOrFail(auth()->user()->id);
+
+
+        // Verificar si el usuario está autenticado
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $product = Products::findOrFail($id);
+
+        // Verificar si el producto ya está en favoritos del usuario
+        if ($user->favoriteProducts()->where('product_id', $product->id)->exists()) {
+            // Si el producto está en favoritos, lo eliminamos
+            $user->favoriteProducts()->detach($product->id);
+            return response()->json(['message' => 'Producto eliminado de favoritos'], 200);
+        } else {
+            // Si el producto no está en favoritos, lo agregamos
+            $user->favoriteProducts()->attach($product->id);
+            return response()->json(['message' => 'Producto agregado a favoritos'], 200);
+        }
     }
 }

@@ -27,6 +27,9 @@ Route::group([
 ], function(){
     Route::get("profile", [AuthController::class, "profile"]);
     Route::get("logout", [AuthController::class, "logout"]);
+
+    // Favorite Products
+    Route::post('/products/{id}/favorite', [ProductsController::class, 'toggleFavorite']);
 });
 
 // Admin Routes
@@ -49,9 +52,15 @@ Route::group([
 });
 
 // Products
-Route::get('/products', [ProductsController::class, 'index']);
-Route::post('/products/filtered', [ProductsController::class, 'allFiltered']);
-Route::get('/products/{id}', [ProductsController::class, 'show']);
+Route::group([
+    "middleware" => ["jwt.auth"]
+], function(){
+    Route::get('/products', [ProductsController::class, 'index']);
+    Route::post('/products/filtered', [ProductsController::class, 'allFiltered']);
+    Route::get('/products/{id}', [ProductsController::class, 'show']);
+
+    Route::get('user/favorite-products', [AuthController::class, 'favorites']);
+});
 
 // Categories
 Route::get('/categories', [CategoriesController::class, 'index']);

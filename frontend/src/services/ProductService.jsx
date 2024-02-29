@@ -14,6 +14,10 @@ const ProductService = {
         return Api().post('products', productData);
     },
 
+    ToggleFavorite(id) {
+        return Api().post(`products/${id}/favorite`);
+    },
+
     Delete(id) {
         return Api().delete(`products/${id}`);
     }

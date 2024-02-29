@@ -4,10 +4,13 @@ import product1 from '@/assets/images/products/product1.jpg';
 import '@/assets/css/template.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faMagnifyingGlass, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
-const ProductCard = ({ product }) => {
+
+const ProductCard = ({ product, toggleFavorite }) => {
+
     return (
-        <div className="bg-white shadow rounded overflow-hidden group" key={product.id}>
+        <div className="bg-white shadow rounded overflow-hidden group">
             <div className="relative">
                 <img src={product1} alt="product 1" className="w-full" />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
@@ -17,10 +20,10 @@ const ProductCard = ({ product }) => {
                         title="view product">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </a>
-                    <a href="#"
+                    <a 
                         className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                         title="add to wishlist">
-                        <FontAwesomeIcon icon={faHeart} />
+                            {product.is_favorite ? <FontAwesomeIcon icon={faHeart} onClick={() => toggleFavorite(product.id)}/> : <FontAwesomeIcon icon={faHeartRegular} onClick={() => toggleFavorite(product.id)}/>}
                     </a>
                 </div>
             </div>
@@ -50,6 +53,7 @@ const ProductCard = ({ product }) => {
                 to cart</a>
         </div>
     );
+
 };
 
 export default ProductCard;

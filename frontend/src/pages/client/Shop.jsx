@@ -12,7 +12,7 @@ import { faList, faGripVertical, faFilter } from '@fortawesome/free-solid-svg-ic
 
 const Shop = () => {
 
-    const { products, getProductsFiltered } = useProduct();
+    const { products, getProductsFiltered, toggleFavorite } = useProduct();
     const { categories } = useCategory();
     const [categoryFilters, setCategoryFilters] = useState([]);
     const [priceFilters, setPriceFilters] = useState({
@@ -211,7 +211,7 @@ const Shop = () => {
 
                         <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
                             {products.length > 0 ? (
-                                products.map((product) => <ProductCard product={product} key={product.id} />)
+                                products.map((product) => <ProductCard product={product} key={product.id} toggleFavorite={toggleFavorite}/>)
                             ) : (
                                 <div className="col-span-3 text-center text-gray-500">No products found</div>
                             )}

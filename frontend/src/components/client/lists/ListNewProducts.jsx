@@ -5,7 +5,7 @@ import ProductCard from '../cards/ProductCard';
 
 const ListNewProducts = () => {
 
-    const { products, getProductsFiltered } = useProduct();
+    const { products, getProductsFiltered, toggleFavorite } = useProduct();
 
     useEffect(() => {
         getProductsFiltered({ quantity: 4, orderBy: 'created_at', order: 'desc'});
@@ -15,7 +15,7 @@ const ListNewProducts = () => {
         <div className="container py-16 temp">
             <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">top new arrival</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                {products.map((product) => <ProductCard product={product} key={product.id}/>)}
+                {products.map((product) => <ProductCard product={product} key={product.id} toggleFavorite={toggleFavorite}/>)}
             </div>
         </div>
     );
