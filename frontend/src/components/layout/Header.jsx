@@ -10,11 +10,10 @@ function Header() {
 
     const redirects = {
         home: () => Navigate('/home'),
-        stations: () => Navigate('/admin/dashboard/stations'),
+        shop: () => Navigate('/shop'),
         dashboard: () => Navigate('/admin/dashboard'),
         contact: () => Navigate('/contactus'),
         profile: () => Navigate('/profile'),
-        pricing: () => Navigate('/pricing'),
         login: () => Navigate('/auth/login'),
     }
 
@@ -42,9 +41,7 @@ function Header() {
                             <span className="block text-sm">{user.name}</span>
                         </Dropdown.Header>
                         {user.type === "admin" && <Dropdown.Item onClick={redirects.dashboard}>Dashboard</Dropdown.Item>}
-                        <Dropdown.Item>Settings</Dropdown.Item>
                         <Dropdown.Item onClick={redirects.profile}>Profile</Dropdown.Item>
-                        <Dropdown.Item>Earnings</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick={() => logout()}>Sign out</Dropdown.Item>
                     </Dropdown>
@@ -57,9 +54,7 @@ function Header() {
                 <Navbar.Link onClick={redirects.home} active>
                     Home
                 </Navbar.Link>
-                <Navbar.Link href="#">About</Navbar.Link>
-                <Navbar.Link href="#">Services</Navbar.Link>
-                <Navbar.Link onClick={redirects.pricing}>Pricing</Navbar.Link>
+                <Navbar.Link onClick={redirects.shop}>Shop</Navbar.Link>
                 <Navbar.Link onClick={redirects.contact}>Contact</Navbar.Link>
             </Navbar.Collapse>
         </Navbar>

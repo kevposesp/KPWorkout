@@ -13,9 +13,11 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        // $categories = Categories::all();
-        // return response()->json($categories, 200);
-        $categories = Categories::with('childrenCategories')->whereNull('parent_id')->get();
+        $categories = Categories::with('childrenCategories')
+            ->withCount('products')
+            ->whereNull('parent_id')
+            ->get();
+
         return response()->json($categories, 200);
     }
 
@@ -90,5 +92,29 @@ class CategoriesController extends Controller
         $category->delete();
 
         return response()->json(null, 204);
+    }
+
+    /**
+     * Add or remove a product from the category.
+     */
+    public function updateProduct(Request $request, string $id)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id'
+        ]);
+
+        $category = Categories::findOrFail($id);
+        $product_id = $request->product_id;
+
+        // Verificar si la relación ya existe
+        if ($category->products()->where('products.id', $product_id)->exists()) {
+            // Si la relación existe, la eliminamos
+            $category->products()->detach($product_id);
+            return response()->json(['message' => 'El producto fue eliminado de la categoría'], 200);
+        }
+
+        // Si la relación no existe, la agregamos
+        $category->products()->attach($product_id);
+        return response()->json(['message' => 'El producto fue agregado a la categoría'], 200);
     }
 }

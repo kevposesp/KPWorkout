@@ -2,8 +2,9 @@ import React from 'react';
 import deliveryVan from '@/assets/images/icons/delivery-van.svg';
 import moneyBack from '@/assets/images/icons/money-back.svg';
 import serviceHours from '@/assets/images/icons/service-hours.svg';
-import ListCategoriesHome from '../../components/client/lists/ListCategoriesHome';
-import ListNewProducts from '../../components/client/lists/ListNewProducts';
+import ListCategoriesHome from '@/components/client/lists/ListCategoriesHome';
+import ListNewProducts from '@/components/client/lists/ListNewProducts';
+import Menu from '@/components/client/Menu';
 
 const Home = () => {
   return (
@@ -18,6 +19,10 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* <!-- Menú principal --> */}
+      <Menu />
+
       <div className="container mx-auto my-3">
 
         {/* <!-- features --> */}
