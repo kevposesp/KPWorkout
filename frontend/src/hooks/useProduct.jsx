@@ -40,6 +40,17 @@ export function useProduct() {
             });
     }, [products]);
 
+    const toggleFavorite = useCallback((id) => {
+        ProductService.ToggleFavorite(id)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setProducts(products.map(product => product.id === id ? { ...product, is_favorite: !product.is_favorite } : product))
+                    useCreateToastr({ status: true })
+                }
+            })
+            .catch(e => console.error(e));
+    }, [products]);
+
     const deleteProduct = useCallback((id) => {
         ProductService.Delete(id)
             .then(({ status }) => {
@@ -53,6 +64,6 @@ export function useProduct() {
             });
     }, [products]);
     
-    return { products, setProducts, getProducts, getProductsFiltered, createProduct, deleteProduct };
+    return { products, setProducts, getProducts, getProductsFiltered, createProduct, toggleFavorite, deleteProduct };
 
 }

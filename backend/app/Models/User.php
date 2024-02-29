@@ -40,4 +40,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Products::class, 'favorite_products', 'user_id', 'product_id')->withTimestamps();
+    }
 }

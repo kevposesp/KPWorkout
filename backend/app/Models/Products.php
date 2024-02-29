@@ -30,4 +30,9 @@ class Products extends Model
         return $this->belongsToMany(Categories::class, 'categories_products', 'product_id', 'category_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'favorite_products', 'product_id', 'user_id')->withTimestamps();
+    }
+
 }

@@ -103,4 +103,18 @@ class AuthController extends Controller
             "message" => "User logged out successfully"
         ]);
     }
+
+    // User Products Favorites
+    public function favorites()
+    {
+
+        $userdata = auth()->user();
+
+        return response()->json([
+            "status" => true,
+            "message" => "User favorites",
+            "data" => $userdata->favoriteProducts
+        ]);
+
+    }
 }
