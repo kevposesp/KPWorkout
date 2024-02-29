@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -27,6 +28,8 @@ class ProductsController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer'
         ]);
+
+        $request['slug'] = Str::slug($request->name);
 
         $product = Products::create($request->all());
 

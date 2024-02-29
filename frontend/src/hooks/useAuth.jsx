@@ -15,6 +15,7 @@ export function useAuth() {
     const login = (data) => {
         UserService.LoginUser(data)
             .then(({ data, status }) => {
+                console.log(data, status);
                 if (status === 200) {
                     useCreateToastr({ status: true })
                     setUser(data);
@@ -25,7 +26,10 @@ export function useAuth() {
                     Navigate('/home')
                 }
             })
-            .catch(e => console.error(e));
+            .catch(e => {
+                console.error(e)
+                useCreateToastr({ status: true, message: e.response.data.message, error: 'error'})
+            });
     };
 
     const register = (user) => {

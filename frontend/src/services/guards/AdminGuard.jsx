@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import UserService from '../UserService';
-import UserContext from '.@/context/UserContext';
-import { useAuth } from '.@/hooks/useAuth';
+import UserContext from '@/context/UserContext';
+import { useAuth } from '@/hooks/useAuth';
 
 function AdminGuard() {
     const [print, setPrint] = useState(<Navigate to="/home" />);
@@ -15,7 +15,7 @@ function AdminGuard() {
         UserService.GetUser()
             .then(({ data, status }) => {
                 if (status === 200) {
-                    if (data.user.type === 'Admin') {
+                    if (data.data.type === 'admin') {
                         setPrint(<Outlet />);
                     } else {
                         setPrint(<Navigate to="/home" />);

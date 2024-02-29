@@ -11,12 +11,11 @@ function Header() {
     const redirects = {
         home: () => Navigate('/home'),
         stations: () => Navigate('/admin/dashboard/stations'),
-        admin: () => Navigate('/admin'),
+        dashboard: () => Navigate('/admin/dashboard'),
         contact: () => Navigate('/contactus'),
         profile: () => Navigate('/profile'),
         pricing: () => Navigate('/pricing'),
         login: () => Navigate('/auth/login'),
-
     }
 
     return (
@@ -42,7 +41,7 @@ function Header() {
                         <Dropdown.Header>
                             <span className="block text-sm">{user.name}</span>
                         </Dropdown.Header>
-                        {user.type === "admin" && <Dropdown.Item onClick={redirects.admin}>Dashboard</Dropdown.Item>}
+                        {user.type === "admin" && <Dropdown.Item onClick={redirects.dashboard}>Dashboard</Dropdown.Item>}
                         <Dropdown.Item>Settings</Dropdown.Item>
                         <Dropdown.Item onClick={redirects.profile}>Profile</Dropdown.Item>
                         <Dropdown.Item>Earnings</Dropdown.Item>
