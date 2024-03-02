@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '@/assets/css/template.scss';
 import { useProduct } from '@/hooks/useProduct';
-import { useCategory } from '@/hooks/useCategory';
 
 import Menu from '@/components/client/Menu';
 
@@ -9,82 +8,30 @@ import ProductCard from '@/components/client/cards/ProductCard';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faGripVertical, faFilter } from '@fortawesome/free-solid-svg-icons'
+import Search from '@/components/client/filters/Search';
+import Categories from '@/components/client/filters/Categories';
+import Price from '@/components/client/filters/Price';
+import Order from '@/components/client/filters/Order';
+
+import { useParams } from 'react-router-dom';
 
 const Shop = () => {
 
     const { products, getProductsFiltered, toggleFavorite } = useProduct();
-    const { categories } = useCategory();
-    const [categoryFilters, setCategoryFilters] = useState([]);
-    const [priceFilters, setPriceFilters] = useState({
-        min: 0,
-        max: 0
-    });
-
-    const [orderBy, setOrderBy] = useState('');
-    const [order, setOrder] = useState('');
 
     const [act, setAct] = useState('-translate-x-full');
+    const { filters } = useParams();
 
     useEffect(() => {
         getProductsFiltered(formatFilters());
-    }, [getProductsFiltered, categoryFilters, priceFilters, orderBy, order]);
-
-    // Manejador de eventos para marcar/desmarcar categorías
-    const handleCategoryChange = (categoryId, isChecked) => {
-        if (isChecked) {
-            // Si está marcado, añadir la categoría al array
-            setCategoryFilters(prevFilters => [...prevFilters, categoryId]);
-        } else {
-            // Si está desmarcado, eliminar la categoría del array
-            setCategoryFilters(prevFilters => prevFilters.filter(id => id !== categoryId));
-        }
-    };
-
-    // Manejador de eventos para cambiar los precios
-    const handlePriceChange = (e) => {
-        const { name, value } = e.target;
-        setPriceFilters(prevFilters => ({
-            ...prevFilters,
-            [name]: parseInt(value)
-        }));
-    };
-
-    // Manejador de eventos para cambiar el orden
-    const handleSortChange = (event) => {
-        const selectedSort = event.target.value;
-        let newOrderBy = '';
-        let newOrder = '';
-
-        switch (selectedSort) {
-            case 'price-low-to-high':
-                newOrderBy = 'price';
-                newOrder = 'asc';
-                break;
-            case 'price-high-to-low':
-                newOrderBy = 'price';
-                newOrder = 'desc';
-                break;
-            case 'latest':
-                newOrderBy = 'created_at';
-                newOrder = 'desc';
-                break;
-            default:
-                newOrderBy = '';
-                newOrder = '';
-        }
-
-        setOrderBy(newOrderBy);
-        setOrder(newOrder);
-    };
+    }, [getProductsFiltered, filters]);
 
     function formatFilters() {
-        return {
-            categories: categoryFilters,
-            minPrice: priceFilters.min,
-            maxPrice: priceFilters.max,
-            orderBy,
-            order
+        let res = {};
+        if (filters) {
+            res = JSON.parse(atob(filters));
         }
+        return res
     }
 
     return (
@@ -126,29 +73,12 @@ const Shop = () => {
                         <div className="divide-y divide-gray-200 space-y-5">
                             <div>
                                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Categories</h3>
-                                <div className="space-y-2">
-                                    {categories.map((category) => (
-                                        <div className="flex items-center" key={category.id}>
-                                            <input type="checkbox" name={`cat-${category.id}`} id={`cat-${category.id}`} onChange={(e) => handleCategoryChange(category.id, e.target.checked)}
-                                                className="text-primary focus:ring-0 rounded-sm cursor-pointer" />
-                                            <label htmlFor={`cat-${category.id}`} className="text-gray-600 ml-3 cusror-pointer">{category.title}</label>
-                                            <div className="ml-auto text-gray-600 text-sm">({category.products_count})</div>
-                                        </div>
-                                    ))}
-                                </div>
+                                <Categories />
                             </div>
 
                             <div className="pt-4">
                                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Price</h3>
-                                <div className="mt-4 flex items-center">
-                                    <input type="number" name="min" id="min"
-                                        className="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                                        placeholder="min" onChange={handlePriceChange} />
-                                    <span className="mx-3 text-gray-500">-</span>
-                                    <input type="number" name="max" id="max"
-                                        className="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                                        placeholder="max" onChange={handlePriceChange} />
-                                </div>
+                                <Price />
                             </div>
 
                         </div>
@@ -158,43 +88,31 @@ const Shop = () => {
                         <div className="divide-y divide-gray-200 space-y-5 py-5 px-2">
                             <div>
                                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Categories</h3>
-                                <div className="space-y-2">
-                                    {categories.map((category) => (
-                                        <div className="flex items-center" key={category.id}>
-                                            <input type="checkbox" name={`cat-${category.id}`} id={`cat-${category.id}`} onChange={(e) => handleCategoryChange(category.id, e.target.checked)}
-                                                className="text-primary focus:ring-0 rounded-sm cursor-pointer" />
-                                            <label htmlFor={`cat-${category.id}`} className="text-gray-600 ml-3 cusror-pointer">{category.title}</label>
-                                            <div className="ml-auto text-gray-600 text-sm">({category.products_count})</div>
-                                        </div>
-                                    ))}
-                                </div>
+                                <Categories />
                             </div>
 
                             <div className="pt-4">
                                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Price</h3>
-                                <div className="mt-4 flex items-center">
-                                    <input type="number" name="min" id="min"
-                                        className="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                                        placeholder="min" onChange={handlePriceChange} />
-                                    <span className="mx-3 text-gray-500">-</span>
-                                    <input type="number" name="max" id="max"
-                                        className="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                                        placeholder="max" onChange={handlePriceChange} />
-                                </div>
+                                <Price />
                             </div>
                         </div>
                     </div>
 
                     <div className="col-span-3">
 
+                        <div className='p-3 max-w-96 m-auto'>
+                            <Search />
+                        </div>
+
                         <div className="flex items-center mb-4">
-                            <select name="sort" id="sort" onChange={handleSortChange}
+                            {/* <select name="sort" id="sort" onChange={handleSortChange}
                                 className="w-44 text-sm text-gray-600 py-3 px-4 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary">
                                 <option value="">Default sorting</option>
                                 <option value="price-low-to-high">Price low to high</option>
                                 <option value="price-high-to-low">Price high to low</option>
                                 <option value="latest">Latest product</option>
-                            </select>
+                            </select> */}
+                            <Order />
 
                             <div className="flex gap-2 ml-auto">
                                 <div
@@ -209,9 +127,9 @@ const Shop = () => {
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-3 grid-cols-1 gap-6">
                             {products.length > 0 ? (
-                                products.map((product) => <ProductCard product={product} key={product.id} toggleFavorite={toggleFavorite}/>)
+                                products.map((product) => <ProductCard product={product} key={product.id} toggleFavorite={toggleFavorite} />)
                             ) : (
                                 <div className="col-span-3 text-center text-gray-500">No products found</div>
                             )}

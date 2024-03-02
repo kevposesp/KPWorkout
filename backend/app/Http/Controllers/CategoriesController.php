@@ -14,7 +14,6 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Categories::with('childrenCategories')
-            ->withCount('products')
             ->whereNull('parent_id')
             ->get();
 
