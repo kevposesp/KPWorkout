@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\Products;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ProductsController extends Controller
         $products = Products::all();
 
         // Obtener el usuario autenticado, si existe
-        $user = User::findOrFail(auth()->user()->id);
+        $user = User::find(auth()->user()->id ?? null);
 
         // Si el usuario está autenticado, obtener sus productos favoritos
         $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
@@ -71,6 +72,8 @@ class ProductsController extends Controller
         if ($request->has('categories')) {
             $categories = $request->input('categories');
             if ($categories && is_array($categories) && count($categories) > 0) {
+                $categories = Categories::whereIn('id', $categories)->get()->pluck('id')->toArray();
+                $categories = array_merge($categories, Categories::whereIn('parent_id', $categories)->get()->pluck('id')->toArray());
                 $products->whereHas('categories', function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
                 });
@@ -93,7 +96,7 @@ class ProductsController extends Controller
         }
 
         // Obtener el usuario autenticado, si existe
-        $user = User::findOrFail(auth()->user()->id);
+        $user = User::find(auth()->user()->id ?? null);
 
         // Si el usuario está autenticado, obtener sus productos favoritos
         $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
@@ -194,7 +197,7 @@ class ProductsController extends Controller
     public function toggleFavorite(Request $request, string $id)
     {
         // Obtener el usuario autenticado
-        $user = User::findOrFail(auth()->user()->id);
+        $user = User::find(auth()->user()->id ?? null);
 
 
         // Verificar si el usuario está autenticado

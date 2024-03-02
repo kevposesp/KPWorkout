@@ -45,7 +45,10 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/home" element={<Home />} />
-                  <Route path='/shop' element={<Shop />} />
+                  <Route path='/shop'>
+                    <Route path='' element={<Shop />} />
+                    <Route path=':filters' element={<Shop />} />
+                  </Route>
 
                   {/* you must be logged in */}
                   <Route element={<AuthGuard />}>

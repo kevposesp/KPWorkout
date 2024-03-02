@@ -19,6 +19,8 @@ class Categories extends Model
         'title', 'description', 'image', 'slug', 'parent_id', 'is_leaf'
     ];
 
+    protected $appends = ['products_count'];
+
     protected function slug(): Attribute
     {
         return Attribute::make(
@@ -40,6 +42,22 @@ class Categories extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Products::class, 'categories_products', 'category_id', 'product_id');
+    }
+
+    public function getProductsCountAttribute(): int
+    {
+        return $this->calculateTotalProductsCount();
+    }
+
+    protected function calculateTotalProductsCount(): int
+    {
+        $totalCount = $this->products()->count();
+
+        foreach ($this->childrenCategories as $child) {
+            $totalCount += $child->calculateTotalProductsCount();
+        }
+
+        return $totalCount;
     }
 
 }
