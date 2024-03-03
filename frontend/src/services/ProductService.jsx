@@ -1,13 +1,20 @@
 import Api from './Api';
+import JwtService from './JwtService';
 
 const ProductService = {
 
     Get() {
-        return Api().get('products');
+        const A = JwtService.getToken() ? 'A' : '';
+        return Api().get(`products${A}`);
     },
 
     GetFiltered(filters) {
-        return Api().post('products/filtered', filters);
+        const A = JwtService.getToken() ? 'A' : '';
+        return Api().post(`products${A}/filtered`, filters);
+    },
+
+    GetWishlist() {
+        return Api().get('user/favorite-products');
     },
 
     Create(productData) {

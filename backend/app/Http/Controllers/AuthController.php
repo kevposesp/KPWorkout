@@ -117,4 +117,18 @@ class AuthController extends Controller
         ]);
 
     }
+
+    // User Products Chart
+    public function chart()
+    {
+
+        $userdata = auth()->user();
+
+        return response()->json([
+            "status" => true,
+            "message" => "User chart",
+            "data" => $userdata->chart
+        ]);
+
+    }
 }

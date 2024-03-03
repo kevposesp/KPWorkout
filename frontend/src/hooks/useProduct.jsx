@@ -4,7 +4,7 @@ import ProductService from '@/services/ProductService';
 
 export function useProduct() {
 
-    const [ products, setProducts ] = useState([])
+    const [products, setProducts] = useState([])
     const { useCreateToastr } = useToastr();
 
     const getProducts = useCallback(() => {
@@ -27,6 +27,16 @@ export function useProduct() {
             .catch(e => console.error(e));
     }, [setProducts]);
 
+    const getWishlist = useCallback(() => {
+        ProductService.GetWishlist()
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setProducts(data.data);
+                }
+            })
+            .catch(e => console.error(e));
+    }, [setProducts]);
+
     const createProduct = useCallback((productData) => {
         ProductService.Create(productData)
             .then(({ data, status }) => {
@@ -40,11 +50,15 @@ export function useProduct() {
             });
     }, [products]);
 
-    const toggleFavorite = useCallback((id) => {
+    const toggleFavorite = useCallback((id, type = '') => {
         ProductService.ToggleFavorite(id)
             .then(({ data, status }) => {
                 if (status === 200) {
-                    setProducts(products.map(product => product.id === id ? { ...product, is_favorite: !product.is_favorite } : product))
+                    if (type === 'wish') {
+                        setProducts(products.filter(product => product.id !== id))
+                    } else {
+                        setProducts(products.map(product => product.id === id ? { ...product, is_favorite: !product.is_favorite } : product))
+                    }
                     useCreateToastr({ status: true })
                 }
             })
@@ -63,7 +77,7 @@ export function useProduct() {
                 useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
             });
     }, [products]);
-    
-    return { products, setProducts, getProducts, getProductsFiltered, createProduct, toggleFavorite, deleteProduct };
+
+    return { products, setProducts, getProducts, getProductsFiltered, createProduct, toggleFavorite, getWishlist, deleteProduct };
 
 }
