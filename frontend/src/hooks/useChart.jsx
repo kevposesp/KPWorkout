@@ -34,12 +34,35 @@ export function useChart() {
         ChartService.RemoveProduct(id)
             .then(({ data, status }) => {
                 if (status === 200) {
+                    if (productsChart.find(product => product.id === id)) {
+                        setProductsChart(productsChart.map(product => {
+                            if (product.id === id) {
+                                if (product.pivot.quantity > 1) {
+                                    --product.pivot.quantity;
+                                } else {
+                                    return;
+                                }
+                            }
+                            return product;
+                        }).filter(product => product));
+                    }
                     useCreateToastr({ status: true })
                 }
             })
             .catch(e => console.error(e));
     }, [productsChart]);
 
-    return { productsChart, setProductsChart, addProduct, removeProduct };
+    const removeLine = useCallback((id) => {
+        ChartService.RemoveLine(id)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setProductsChart(productsChart.filter(product => product.id !== id));
+                    useCreateToastr({ status: true })
+                }
+            })
+            .catch(e => console.error(e));
+    }, [productsChart]);
+
+    return { productsChart, setProductsChart, addProduct, removeProduct, removeLine };
 
 }

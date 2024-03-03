@@ -57,4 +57,25 @@ class ChartController extends Controller
             return response()->json(['error' => 'El producto no está en el carrito del usuario'], 404);
         }
     }
+
+    /**
+     * Remove product line from user's chart.
+     */
+    public function removeProductLineFromUserChart(Request $request, string $id)
+    {
+        $user = User::find(auth()->user()->id ?? null);
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $product = Products::findOrFail($id);
+
+        if ($user->chart()->where('product_id', $product->id)->exists()) {
+            $user->chart()->detach($product->id);
+            return response()->json(['message' => 'Producto eliminado del carrito'], 200);
+        } else {
+            return response()->json(['error' => 'El producto no está en el carrito del usuario'], 404);
+        }
+    }
 }

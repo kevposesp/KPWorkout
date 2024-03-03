@@ -131,4 +131,18 @@ class AuthController extends Controller
         ]);
 
     }
+
+    // User Orders
+    public function orders()
+    {
+
+        $userdata = auth()->user();
+
+        return response()->json([
+            "status" => true,
+            "message" => "User orders",
+            "data" => $userdata->orders
+        ]);
+
+    }
 }

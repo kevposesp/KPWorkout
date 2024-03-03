@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Middleware\IsAdmin;
 
 /*
@@ -37,12 +38,19 @@ Route::group([
     // Chart
     Route::post('/chart/{id}/add', [ChartController::class, 'addProductToUserChart']);
     Route::post('/chart/{id}/remove', [ChartController::class, 'removeProductFromUserChart']);
+    Route::post('/chart/{id}/removeOne', [ChartController::class, 'removeProductLineFromUserChart']);
     Route::get('user/chart', [AuthController::class, 'chart']);
 
     // Products
     Route::get('/productsA', [ProductsController::class, 'indexA']);
     Route::post('/productsA/filtered', [ProductsController::class, 'allFilteredA']);
     Route::get('/productsA/{id}', [ProductsController::class, 'showA']);
+
+    // Orders
+    Route::post('/orders', [OrdersController::class, 'store']);
+    Route::get('/orders/{id}', [OrdersController::class, 'show']);
+    Route::get('user/orders', [AuthController::class, 'orders']);
+    Route::put('/orders/{id}', [OrdersController::class, 'update']);
 });
 
 // Admin Routes
@@ -61,6 +69,9 @@ Route::group([
     Route::put('/categories/{id}', [CategoriesController::class, 'update']);
     Route::delete('/categories/{id}', [CategoriesController::class, 'destroy']);
     Route::post('/categories/{id}/products', [CategoriesController::class, 'updateProduct']);
+
+    // Orders
+    Route::get('/orders', [OrdersController::class, 'index']);
 });
 
 // Products

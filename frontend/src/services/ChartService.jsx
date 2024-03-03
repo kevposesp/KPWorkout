@@ -14,6 +14,10 @@ const ChartService = {
         return Api().post(`chart/${id}/remove`);
     },
 
+    RemoveLine(id) {
+        return Api().post(`chart/${id}/removeOne`);
+    }
+
 }
 
 export default ChartService;
