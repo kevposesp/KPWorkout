@@ -5,10 +5,15 @@ import '@/assets/css/template.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faMagnifyingGlass, faStar } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
+import { useChart } from '@/hooks/useChart';
 
 
 const ProductCard = ({ product, toggleFavorite }) => {
 
+    const { addProduct } = useChart();
+
+    console.log(product);
+    
     return (
         <div className="bg-white shadow rounded overflow-hidden group relative">
             <div className="relative">
@@ -50,7 +55,7 @@ const ProductCard = ({ product, toggleFavorite }) => {
                                 <div className="text-xs text-gray-500 ml-3">(150)</div>
                             </div> */}
             </div>
-            <a href="#"
+            <a onClick={() => addProduct(product.id)}
                 className="block w-full py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition absolute right-0 left-0 bottom-0">Add
                 to cart</a>
         </div>

@@ -34,9 +34,108 @@ class ProductsController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function indexA()
+    {
+        $products = Products::all();
+
+        // Obtener el usuario autenticado, si existe
+        $user = User::find(auth()->user()->id ?? null);
+
+        // Si el usuario está autenticado, obtener sus productos favoritos
+        $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
+
+        // isFavotite
+        $products->transform(function ($product) use ($favoriteProducts) {
+            $product->is_favorite = in_array($product->id, $favoriteProducts);
+            return $product;
+        });
+
+        return response()->json($products, 200);
+    }
+
+    /**
      * All products with filters and pagination
      */
     public function allFiltered(Request $request)
+    {
+        $products = Products::query();
+
+        // Filtrar por texto en nombre o descripción
+        if ($request->has('text')) {
+            $text = $request->input('text');
+            $products->where(function ($query) use ($text) {
+                $query->where('name', 'like', "%$text%")
+                    ->orWhere('description', 'like', "%$text%");
+            });
+        }
+
+        // Filtrar por rango de precio mínimo
+        if ($request->has('minPrice')) {
+            $minPrice = $request->input('minPrice');
+            $products->where('price', '>=', $minPrice);
+        }
+
+        // Filtrar por rango de precio máximo
+        if ($request->has('maxPrice')) {
+            $maxPrice = $request->input('maxPrice');
+            if ($maxPrice > 0) {
+                $products->where('price', '<=', $maxPrice);
+            }
+        }
+
+        // Filtrar por cantidad de stock mínimo
+        if ($request->has('stock')) {
+            $stock = $request->input('stock');
+            $products->where('stock', '>=', $stock);
+        }
+
+        if ($request->has('categories')) {
+            $categories = $request->input('categories');
+            if ($categories && is_array($categories) && count($categories) > 0) {
+                $categories = Categories::whereIn('id', $categories)->get()->pluck('id')->toArray();
+                $categories = array_merge($categories, Categories::whereIn('parent_id', $categories)->get()->pluck('id')->toArray());
+                $products->whereHas('categories', function ($query) use ($categories) {
+                    $query->whereIn('categories.id', $categories);
+                });
+            }
+        }
+
+        // Filtrar cantidad de resultados
+        if ($request->has('quantity')) {
+            $quantity = $request->input('quantity');
+            $products = $products->limit($quantity);
+        }
+
+        // Ordenar resultados
+        if ($request->has('orderBy') && $request->has('order')) {
+            $orderBy = $request->input('orderBy');
+            if ($orderBy != '') {
+                $order = $request->input('order') === 'desc' ? 'desc' : 'asc';
+                $products->orderBy($orderBy, $order);
+            }
+        }
+
+        // Obtener el usuario autenticado, si existe
+        $user = User::find(auth()->user()->id ?? null);
+
+        // Si el usuario está autenticado, obtener sus productos favoritos
+        $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
+
+        // Modificar los resultados para incluir información sobre si son favoritos o no
+        $products = $products->get()->map(function ($product) use ($favoriteProducts) {
+            $product->is_favorite = in_array($product->id, $favoriteProducts);
+            return $product;
+        });
+
+        return response()->json($products, 200);
+    }
+
+    /**
+     * All products with filters and pagination
+     */
+    public function allFilteredA(Request $request)
     {
         $products = Products::query();
 
@@ -133,6 +232,15 @@ class ProductsController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
+    {
+        $product = Products::findOrFail($id);
+        return response()->json($product, 200);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showA(string $id)
     {
         $product = Products::findOrFail($id);
         return response()->json($product, 200);
