@@ -4,11 +4,13 @@ import '@/assets/css/template.scss';
 import Menu from '@/components/client/Menu';
 import ProfileSettings from '@/components/client/profile/ProfileSettings';
 import WishList from '@/components/client/profile/WishList';
+import Chart from '@/components/client/profile/Chart';
+import Order from '@/components/client/profile/Orders';
 
 import { useAuth } from '@/hooks/useAuth';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBoxArchive, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faBoxArchive, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons'
 
 const Profile = () => {
@@ -28,9 +30,11 @@ const Profile = () => {
             case 'profile':
                 return (<ProfileSettings user={user} />)
             case 'order':
-                return (<div>Order history</div>)
+                return (<Order />)
             case 'wishlist':
                 return (<WishList />)
+            case 'chart':
+                return (<Chart />)
             default:
                 return (<ProfileSettings user={user} />)
         }
@@ -99,6 +103,20 @@ const Profile = () => {
                                     <FontAwesomeIcon icon={faHeart} />
                                 </span>
                                 My wishlist
+                            </a>
+                        </div>
+                        
+                        <div className="space-y-1 pl-8 pt-4">
+                            <a className={`relative text-primary block font-medium capitalize transition ${page == 'chart' ? 'selected-color' : ''}`} onClick={() => {
+                                localStorage.setItem('page', 'chart');
+                                setLocalPage('chart');
+                                setPage('chart')
+                            }}>
+                                <span className="absolute -left-8 top-0 text-base">
+                                    <i className="fa-regular fa-heart"></i>
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                </span>
+                                Chart
                             </a>
                         </div>
 

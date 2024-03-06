@@ -8,13 +8,16 @@ function ModalComponent({
     titleButton: 'Create',
     type: 'create',
     color: 'blue',
+    classButton: false
   }
 }) {
   const [openModal, setOpenModal] = useState(false);
 
+  const clsButton = settings.classButton ? settings.classButton : "";
+
   return (
     <>
-      <Button color={settings.color} onClick={() => setOpenModal(true)}>
+      <Button color={settings.color} className={clsButton} onClick={() => setOpenModal(true)}>
         {settings.titleButton}
       </Button>
       <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>

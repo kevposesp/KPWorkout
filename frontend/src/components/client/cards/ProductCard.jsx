@@ -12,7 +12,13 @@ const ProductCard = ({ product, toggleFavorite }) => {
 
     const { addProduct } = useChart();
 
-    console.log(product);
+    const button = (product) => product.stock > 0
+        ? <a onClick={() => addProduct(product.id)}
+            className="block w-full py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition absolute right-0 left-0 bottom-0">add
+            to cart</a>
+        : <a
+            className="cursor-not-allowed block w-full py-2 text-center text-white bg-red-400 border border-red-400 rounded-b hover:bg-red-400 transition absolute right-0 left-0 bottom-0">add
+            to cart</a>
     
     return (
         <div className="bg-white shadow rounded overflow-hidden group relative">
@@ -55,9 +61,7 @@ const ProductCard = ({ product, toggleFavorite }) => {
                                 <div className="text-xs text-gray-500 ml-3">(150)</div>
                             </div> */}
             </div>
-            <a onClick={() => addProduct(product.id)}
-                className="block w-full py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition absolute right-0 left-0 bottom-0">Add
-                to cart</a>
+            {button(product)}
         </div>
     );
 
