@@ -5,6 +5,7 @@ import Menu from '@/components/client/Menu';
 import ProfileSettings from '@/components/client/profile/ProfileSettings';
 import WishList from '@/components/client/profile/WishList';
 import Chart from '@/components/client/profile/Chart';
+import Order from '@/components/client/profile/Orders';
 
 import { useAuth } from '@/hooks/useAuth';
 
@@ -29,7 +30,7 @@ const Profile = () => {
             case 'profile':
                 return (<ProfileSettings user={user} />)
             case 'order':
-                return (<div>Order history</div>)
+                return (<Order />)
             case 'wishlist':
                 return (<WishList />)
             case 'chart':

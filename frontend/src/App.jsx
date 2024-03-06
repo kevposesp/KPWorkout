@@ -30,6 +30,9 @@ function App() {
   const Shop = React.lazy(() => import("@/pages/client/Shop"));
   const ContactUs = React.lazy(() => import("@/pages/client/contact/ContactUs"));
   const Profile = React.lazy(() => import("@/pages/client/profile/Profile"));
+  const Order = React.lazy(() => import("@/pages/client/profile/orders/Order"));
+  const CheckOut = React.lazy(() => import("@/pages/client/profile/checkout/CheckOut"));
+  const PaymentPage = React.lazy(() => import("@/pages/client/payment/PaymentPage"));
 
   return (
     <>
@@ -56,7 +59,18 @@ function App() {
                     {/* you must be logged in */}
                     <Route element={<AuthGuard />}>
                       <Route path="/contactus" element={<ContactUs />} />
-                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/profile">
+                        <Route path="" element={<Profile />} />
+                        <Route path="order">
+                          <Route path=":id" element={<Order />} />
+                        </Route>
+                        <Route path="checkout">
+                          <Route path="" element={<CheckOut />} />
+                          <Route path="payment">
+                            <Route path="" element={<PaymentPage />}></Route>
+                          </Route>
+                        </Route>
+                      </Route>
                     </Route>
 
                     {/* you must not be logged in */}

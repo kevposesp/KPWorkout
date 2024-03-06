@@ -4,12 +4,12 @@ import { useChart } from '@/hooks/useChart';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
 
 const Chart = () => {
 
     const { productsChart, addProduct, removeProduct, removeLine } = useChart();
-
-    console.log(productsChart);
+    const navigate = useNavigate();
 
     const stock = (stock) => stock > 0
         ? <span className="text-green-600">In Stock</span>
@@ -53,7 +53,7 @@ const Chart = () => {
                     </div>
                 ))}
 
-            <button className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${button}`}>CheckOut</button>
+            <button className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${button}`} onClick={() => navigate('checkout')}>CheckOut</button>
         </div>
     );
 };

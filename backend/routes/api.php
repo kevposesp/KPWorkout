@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\StripeController;
 use App\Http\Middleware\IsAdmin;
 
 /*
@@ -51,6 +52,10 @@ Route::group([
     Route::get('/orders/{id}', [OrdersController::class, 'show']);
     Route::get('user/orders', [AuthController::class, 'orders']);
     Route::put('/orders/{id}', [OrdersController::class, 'update']);
+
+    // Stripe
+    Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
+    Route::post('/retrieve-payment', [StripeController::class, 'retrievePaymentIntent']);
 });
 
 // Admin Routes
