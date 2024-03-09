@@ -47,4 +47,9 @@ class Products extends Model
         return $this->images()->get()->pluck('image');
     }
 
+    public function filters()
+    {
+        return $this->belongsToMany(Filters::class, 'products_filters', 'product_id', 'filter_id');
+    }
+
 }
