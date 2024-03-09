@@ -6,8 +6,8 @@ const ChartService = {
         return Api().get('user/chart');
     },
 
-    AddProduct(id) {
-        return Api().post(`chart/${id}/add`);
+    AddProduct(id, qty) {
+        return Api().post(`chart/${id}/add/${qty}`);
     },
 
     RemoveProduct(id) {

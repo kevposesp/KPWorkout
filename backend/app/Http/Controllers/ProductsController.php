@@ -218,12 +218,17 @@ class ProductsController extends Controller
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
-            'stock' => 'required|integer'
+            'stock' => 'required|integer',
+            'images' => 'required|array',
         ]);
 
         $request['slug'] = Str::slug($request->name);
 
         $product = Products::create($request->all());
+
+        foreach ($request->images as $image) {
+            $product->images()->create(['image' => $image]);
+        }
 
         return response()->json($product, 201);
     }
@@ -234,6 +239,16 @@ class ProductsController extends Controller
     public function show(string $id)
     {
         $product = Products::findOrFail($id);
+
+        // Obtener el usuario autenticado, si existe
+        $user = User::find(auth()->user()->id ?? null);
+
+        // Si el usuario está autenticado, obtener sus productos favoritos
+        $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
+
+        // Modificar el resultado para incluir información sobre si es favorito o no
+        $product->is_favorite = in_array($product->id, $favoriteProducts);
+
         return response()->json($product, 200);
     }
 
@@ -260,6 +275,17 @@ class ProductsController extends Controller
 
         $product = Products::findOrFail($id);
         $product->update($request->all());
+
+        // Comprobar si hay imágenes para actualizar
+        if ($request->has('images')) {
+            // Eliminar las imágenes anteriores
+            $product->images()->delete();
+
+            // Agregar las nuevas imágenes
+            foreach ($request->images as $image) {
+                $product->images()->create(['image' => $image]);
+            }
+        }
 
         return response()->json($product, 200);
     }
