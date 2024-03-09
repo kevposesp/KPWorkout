@@ -13,6 +13,8 @@ const Price = () => {
             const newPriceFilters = JSON.parse(atob(filters));
             if (newPriceFilters.minPrice && (newPriceFilters.minPrice !== priceFilters.min) || newPriceFilters.maxPrice && (newPriceFilters.maxPrice !== priceFilters.max)) {
                 setPriceFilters({ min: newPriceFilters.minPrice, max: newPriceFilters.maxPrice })
+            } else if (!newPriceFilters.minPrice && !newPriceFilters.maxPrice){
+                setPriceFilters({ min: 0, max: 0 });
             }
         }
     }, [filters]);

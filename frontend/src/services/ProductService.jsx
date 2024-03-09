@@ -8,6 +8,10 @@ const ProductService = {
         return Api().get(`products${A}`);
     },
 
+    GetOne(id) {
+        return Api().get(`products/${id}`);
+    },
+
     GetFiltered(filters) {
         const A = JwtService.getToken() ? 'A' : '';
         return Api().post(`products${A}/filtered`, filters);

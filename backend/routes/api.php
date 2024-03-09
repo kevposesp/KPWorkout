@@ -37,7 +37,7 @@ Route::group([
     Route::get('user/favorite-products', [AuthController::class, 'favorites']);
 
     // Chart
-    Route::post('/chart/{id}/add', [ChartController::class, 'addProductToUserChart']);
+    Route::post('/chart/{id}/add/{qty}', [ChartController::class, 'addProductToUserChart']);
     Route::post('/chart/{id}/remove', [ChartController::class, 'removeProductFromUserChart']);
     Route::post('/chart/{id}/removeOne', [ChartController::class, 'removeProductLineFromUserChart']);
     Route::get('user/chart', [AuthController::class, 'chart']);

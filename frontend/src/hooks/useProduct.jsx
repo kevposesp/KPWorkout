@@ -5,6 +5,7 @@ import ProductService from '@/services/ProductService';
 export function useProduct() {
 
     const [products, setProducts] = useState([])
+    const [product, setProduct] = useState({})
     const { useCreateToastr } = useToastr();
 
     const getProducts = useCallback(() => {
@@ -16,6 +17,16 @@ export function useProduct() {
             })
             .catch(e => console.error(e));
     }, [setProducts]);
+
+    const getProduct = useCallback((id) => {
+        return ProductService.GetOne(id)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setProduct(data);
+                }
+            })
+            .catch(e => console.error(e));
+    }, [setProduct, setProducts]);
 
     const getProductsFiltered = useCallback((filters) => {
         ProductService.GetFiltered(filters)
@@ -78,6 +89,17 @@ export function useProduct() {
             });
     }, [products]);
 
-    return { products, setProducts, getProducts, getProductsFiltered, createProduct, toggleFavorite, getWishlist, deleteProduct };
+    return {
+        products,
+        product,
+        setProducts,
+        getProducts,
+        getProduct,
+        getProductsFiltered,
+        createProduct,
+        toggleFavorite,
+        getWishlist,
+        deleteProduct
+    };
 
 }

@@ -12,7 +12,7 @@ class ChartController extends Controller
     /**
      * Add product from user's chart.
      */
-    public function addProductToUserChart(Request $request, string $id)
+    public function addProductToUserChart(Request $request, string $id, int $qty)
     {
         $user = User::find(auth()->user()->id ?? null);
 
@@ -23,7 +23,8 @@ class ChartController extends Controller
         $product = Products::findOrFail($id);
 
         if ($user->chart()->where('product_id', $product->id)->exists()) {
-            $user->chart()->updateExistingPivot($product->id, ['quantity' => DB::raw('quantity + 1')]);
+            $user->chart()->updateExistingPivot($product->id, ['quantity' => DB::raw('quantity + ' . $qty)]);
+            // $user->chart()->updateExistingPivot($product->id, ['quantity' => DB::raw('quantity + 1')]);
         } else {
             $user->chart()->attach($product->id, ['quantity' => 1]);
         }

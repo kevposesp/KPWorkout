@@ -33,6 +33,7 @@ function App() {
   const Order = React.lazy(() => import("@/pages/client/profile/orders/Order"));
   const CheckOut = React.lazy(() => import("@/pages/client/profile/checkout/CheckOut"));
   const PaymentPage = React.lazy(() => import("@/pages/client/payment/PaymentPage"));
+  const Product = React.lazy(() => import("@/pages/client/product/Product"));
 
   return (
     <>
@@ -53,6 +54,9 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path='/shop'>
                       <Route path='' element={<Shop />} />
+                      <Route path='product'>
+                        <Route path=':id' element={<Product />} />
+                      </Route>
                       <Route path=':filters' element={<Shop />} />
                     </Route>
 

@@ -6,11 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faMagnifyingGlass, faStar } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import { useChart } from '@/hooks/useChart';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProductCard = ({ product, toggleFavorite }) => {
 
     const { addProduct } = useChart();
+
+    const navigate = useNavigate();
 
     const button = (product) => product.stock > 0
         ? <a onClick={() => addProduct(product.id)}
@@ -26,7 +29,7 @@ const ProductCard = ({ product, toggleFavorite }) => {
                 <img src={product1} alt="product 1" className="w-full" />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
                     justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
-                    <a href="#"
+                    <a onClick={() => navigate(`/shop/product/${product.id}`)}
                         className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                         title="view product">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />

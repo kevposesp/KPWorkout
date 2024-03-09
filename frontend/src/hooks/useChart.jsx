@@ -8,8 +8,8 @@ export function useChart() {
     const { productsChart, setProductsChart } = useContext(ChartContext)
     const { useCreateToastr } = useToastr();
 
-    const addProduct = useCallback((id) => {
-        ChartService.AddProduct(id)
+    const addProduct = useCallback((id, qty = 1) => {
+        ChartService.AddProduct(id, qty)
             .then(({ data, status }) => {
                 if (status === 200) {
                     if (productsChart.find(product => product.id === data.product.pivot.product_id)) {

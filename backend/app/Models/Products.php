@@ -17,6 +17,8 @@ class Products extends Model
         'name', 'description', 'price', 'stock', 'slug'
     ];
 
+    protected $appends = ['images'];
+
     protected function slug(): Attribute
     {
         return Attribute::make(
@@ -33,6 +35,16 @@ class Products extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'favorite_products', 'product_id', 'user_id')->withTimestamps();
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductsImages::class);
+    }
+
+    public function getImagesAttribute()
+    {
+        return $this->images()->get()->pluck('image');
     }
 
 }

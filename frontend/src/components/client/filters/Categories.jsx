@@ -16,6 +16,8 @@ const Categories = () => {
             const newCategoriesTerm = JSON.parse(atob(filters));
             if (newCategoriesTerm.categories && categoryFilters && (newCategoriesTerm.categories !== categoryFilters)) {
                 setCategoryFilters(newCategoriesTerm.categories);
+            } else if (!newCategoriesTerm.categories) {
+                setCategoryFilters([]);
             }
         }
     }, [filters]);
