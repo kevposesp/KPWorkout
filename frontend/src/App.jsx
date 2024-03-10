@@ -7,9 +7,12 @@ import { ToastrContext } from "@/context/ToastrContext";
 import { UserContext } from "@/context/UserContext";
 import { CategoryContext } from '@/context/CategoryContext';
 import { ChartContext } from '@/context/ChartContext';
+import { OrderContext } from '@/context/OrderContext';
+import { FilterContext } from '@/context/FilterContext';
 
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
+import Footer from "@/components/layout/Footer";
 
 import Toastr from "@/components/toastr/Toastr";
 import Loading from "@/components/Loading/Loading";
@@ -24,6 +27,10 @@ function App() {
 
   // Admin
   const Dashboard = React.lazy(() => import("@/pages/admin/Dashboard"));
+  const Categories = React.lazy(() => import("@/pages/admin/Categories/Categories"));
+  const Products = React.lazy(() => import("@/pages/admin/Products/Products"));
+  const Orders = React.lazy(() => import("@/pages/admin/Orders/Orders"));
+  const Filters = React.lazy(() => import("@/pages/admin/Filters/Filters"));
 
   // Client
   const Home = React.lazy(() => import("@/pages/client/Home"));
@@ -43,59 +50,68 @@ function App() {
             <UserContext>
               <CategoryContext>
                 <ChartContext>
-                  <Routes>
-                    <Route path="/admin/*" element={<Sidebar />} />
-                    <Route path="/*" element={<Header />} />
-                  </Routes>
+                  <OrderContext>
+                    <FilterContext>
+                      <Routes>
+                        <Route path="/admin/*" element={<Sidebar />} />
+                        <Route path="/*" element={<Header />} />
+                      </Routes>
 
-                  {/* <div className="container mx-auto my-3"> */}
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path='/shop'>
-                      <Route path='' element={<Shop />} />
-                      <Route path='product'>
-                        <Route path=':id' element={<Product />} />
-                      </Route>
-                      <Route path=':filters' element={<Shop />} />
-                    </Route>
-
-                    {/* you must be logged in */}
-                    <Route element={<AuthGuard />}>
-                      <Route path="/contactus" element={<ContactUs />} />
-                      <Route path="/profile">
-                        <Route path="" element={<Profile />} />
-                        <Route path="order">
-                          <Route path=":id" element={<Order />} />
+                      {/* <div className="container mx-auto my-3"> */}
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/home" element={<Home />} />
+                        <Route path='/shop'>
+                          <Route path='' element={<Shop />} />
+                          <Route path='product'>
+                            <Route path=':id' element={<Product />} />
+                          </Route>
+                          <Route path=':filters' element={<Shop />} />
                         </Route>
-                        <Route path="checkout">
-                          <Route path="" element={<CheckOut />} />
-                          <Route path="payment">
-                            <Route path="" element={<PaymentPage />}></Route>
+
+                        {/* you must be logged in */}
+                        <Route element={<AuthGuard />}>
+                          <Route path="/contactus" element={<ContactUs />} />
+                          <Route path="/profile">
+                            <Route path="" element={<Profile />} />
+                            <Route path="order">
+                              <Route path=":id" element={<Order />} />
+                            </Route>
+                            <Route path="checkout">
+                              <Route path="" element={<CheckOut />} />
+                              <Route path="payment">
+                                <Route path="" element={<PaymentPage />}></Route>
+                              </Route>
+                            </Route>
                           </Route>
                         </Route>
-                      </Route>
-                    </Route>
 
-                    {/* you must not be logged in */}
-                    <Route path="/auth" element={<NoAuthGuard />}>
-                      <Route path="login" element={<Login />}></Route>
-                      <Route
-                        path="register"
-                        element={<Register />}
-                      ></Route>
-                    </Route>
+                        {/* you must not be logged in */}
+                        <Route path="/auth" element={<NoAuthGuard />}>
+                          <Route path="login" element={<Login />}></Route>
+                          <Route
+                            path="register"
+                            element={<Register />}
+                          ></Route>
+                        </Route>
 
-                    {/* you must be admin */}
-                    <Route element={<AdminGuard />}>
-                      <Route path="/admin">
-                        <Route path="dashboard" element={<Dashboard />} />
-                      </Route>
-                    </Route>
+                        {/* you must be admin */}
+                        <Route element={<AdminGuard />}>
+                          <Route path="/admin">
+                            <Route path="dashboard" element={<Dashboard />} />
+                            <Route path="categories/*" element={<Categories />} />
+                            <Route path="products/*" element={<Products />} />
+                            <Route path="orders/*" element={<Orders />} />
+                            <Route path="filters/*" element={<Filters />} />
+                          </Route>
+                        </Route>
 
-                  </Routes>
-                  {/* </div> */}
-                  <Toastr></Toastr>
+                      </Routes>
+                      {/* </div> */}
+                      <Toastr></Toastr>
+                      <Footer />
+                    </FilterContext>
+                  </OrderContext>
                 </ChartContext>
               </CategoryContext>
             </UserContext>

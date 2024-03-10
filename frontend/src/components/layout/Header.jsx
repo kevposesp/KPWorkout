@@ -21,7 +21,7 @@ function Header() {
         <Navbar fluid rounded>
             <Navbar.Brand>
                 {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="TrailBlaze Logo" /> */}
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white cursor-pointer" onClick={redirects.home}>TrailBlaze</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white cursor-pointer" onClick={redirects.home}>KP WorkOut</span>
             </Navbar.Brand>
             <div className="flex md:order-2">
                 {Object.entries(user).length > 0 ? (

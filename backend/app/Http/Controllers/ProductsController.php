@@ -128,6 +128,13 @@ class ProductsController extends Controller
             }
         }
 
+        // Excluir product id
+        if ($request->has('exclude')) {
+            $exclude = $request->input('exclude');
+            $products->where('id', '!=', $exclude);
+        }
+
+
         // Obtener el usuario autenticado, si existe
         $user = User::find(auth()->user()->id ?? null);
 
@@ -216,6 +223,12 @@ class ProductsController extends Controller
             }
         }
 
+        // Excluir product id
+        if ($request->has('exclude')) {
+            $exclude = $request->input('exclude');
+            $products->where('id', '!=', $exclude);
+        }
+
         // Obtener el usuario autenticado, si existe
         $user = User::find(auth()->user()->id ?? null);
 
@@ -270,6 +283,9 @@ class ProductsController extends Controller
 
         // Modificar el resultado para incluir información sobre si es favorito o no
         $product->is_favorite = in_array($product->id, $favoriteProducts);
+
+        // Devolver categorias
+        $product->categories = $product->categories()->get();
 
         return response()->json($product, 200);
     }
