@@ -1,18 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useToastr } from './useToastr';
 import OrderService from '@/services/OrderService';
+import OrderContext from '@/context/OrderContext';
 
 export function useOrder() {
 
-    const [orders, setOrders] = useState([])
+    const { orders, setOrders } = useContext(OrderContext)
     const [order, setOrder] = useState({})
     const { useCreateToastr } = useToastr();
 
-    useEffect(() => {
-        getOrders();
-    }, []);
-
     const getOrders = useCallback(() => {
+        console.log('getOrders');
         OrderService.Get()
             .then(({ data, status }) => {
                 if (status === 200) {
@@ -32,6 +30,27 @@ export function useOrder() {
             .catch(e => console.error(e));
     }, [setOrder]);
 
-    return { orders, order, setOrders, getOrders, getOrder };
+    const getOrdersAdmin = useCallback(() => {
+        OrderService.GetAllOrders()
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setOrders(data);
+                }
+            })
+            .catch(e => console.error(e));
+    }, [setOrders]);
+
+    const updateOrder = useCallback((id, status_order) => {
+        OrderService.Update(id, { status: status_order })
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    getOrdersAdmin();
+                    useCreateToastr({ status: true });
+                }
+            })
+            .catch(e => console.error(e));
+    }, [setOrders]);
+
+    return { orders, order, setOrders, getOrders, getOrder, getOrdersAdmin, updateOrder };
 
 }

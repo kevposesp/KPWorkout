@@ -19,7 +19,6 @@ const ProductDetail = () => {
 
     useEffect(() => {
         getProduct(id);
-        console.log(product);
     }, [id, getProduct]);
 
     const decreaseQuantity = () => {
@@ -149,10 +148,11 @@ const ProductDetail = () => {
 
                 </div>
             )}
-
-            <div className="container m-auto">
-                <ListRelatedProducts />
-            </div>
+            {Object.entries(product).length > 0 && (
+                <div className="container m-auto">
+                    <ListRelatedProducts id_category={product.categories[0].id} id_product={product.id}/>
+                </div>
+            )}
 
         </div>
     );

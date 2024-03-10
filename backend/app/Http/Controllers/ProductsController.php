@@ -91,6 +91,7 @@ class ProductsController extends Controller
             $products->where('stock', '>=', $stock);
         }
 
+        // Filtrar por categorías
         if ($request->has('categories')) {
             $categories = $request->input('categories');
             if ($categories && is_array($categories) && count($categories) > 0) {
@@ -98,6 +99,16 @@ class ProductsController extends Controller
                 $categories = array_merge($categories, Categories::whereIn('parent_id', $categories)->get()->pluck('id')->toArray());
                 $products->whereHas('categories', function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
+                });
+            }
+        }
+
+        // Filtrar por filtros
+        if ($request->has('filters')) {
+            $filters = $request->input('filters');
+            if ($filters && is_array($filters) && count($filters) > 0) {
+                $products->whereHas('filters', function ($query) use ($filters) {
+                    $query->whereIn('filters.id', $filters);
                 });
             }
         }
@@ -116,6 +127,13 @@ class ProductsController extends Controller
                 $products->orderBy($orderBy, $order);
             }
         }
+
+        // Excluir product id
+        if ($request->has('exclude')) {
+            $exclude = $request->input('exclude');
+            $products->where('id', '!=', $exclude);
+        }
+
 
         // Obtener el usuario autenticado, si existe
         $user = User::find(auth()->user()->id ?? null);
@@ -168,6 +186,7 @@ class ProductsController extends Controller
             $products->where('stock', '>=', $stock);
         }
 
+        // Filtrar por categorías
         if ($request->has('categories')) {
             $categories = $request->input('categories');
             if ($categories && is_array($categories) && count($categories) > 0) {
@@ -175,6 +194,16 @@ class ProductsController extends Controller
                 $categories = array_merge($categories, Categories::whereIn('parent_id', $categories)->get()->pluck('id')->toArray());
                 $products->whereHas('categories', function ($query) use ($categories) {
                     $query->whereIn('categories.id', $categories);
+                });
+            }
+        }
+
+        // Filtrar por filtros
+        if ($request->has('filters')) {
+            $filters = $request->input('filters');
+            if ($filters && is_array($filters) && count($filters) > 0) {
+                $products->whereHas('filters', function ($query) use ($filters) {
+                    $query->whereIn('filters.id', $filters);
                 });
             }
         }
@@ -192,6 +221,12 @@ class ProductsController extends Controller
                 $order = $request->input('order') === 'desc' ? 'desc' : 'asc';
                 $products->orderBy($orderBy, $order);
             }
+        }
+
+        // Excluir product id
+        if ($request->has('exclude')) {
+            $exclude = $request->input('exclude');
+            $products->where('id', '!=', $exclude);
         }
 
         // Obtener el usuario autenticado, si existe
@@ -248,6 +283,9 @@ class ProductsController extends Controller
 
         // Modificar el resultado para incluir información sobre si es favorito o no
         $product->is_favorite = in_array($product->id, $favoriteProducts);
+
+        // Devolver categorias
+        $product->categories = $product->categories()->get();
 
         return response()->json($product, 200);
     }

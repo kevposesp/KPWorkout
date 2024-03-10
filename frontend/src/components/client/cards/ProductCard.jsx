@@ -22,11 +22,17 @@ const ProductCard = ({ product, toggleFavorite }) => {
         : <a
             className="cursor-not-allowed block w-full py-2 text-center text-white bg-red-400 border border-red-400 rounded-b hover:bg-red-400 transition absolute right-0 left-0 bottom-0">add
             to cart</a>
-    
+
+    const product_img = product.images.length > 0 ? product.images[0] : product1;
+
     return (
         <div className="bg-white shadow rounded overflow-hidden group relative">
             <div className="relative">
-                <img src={product1} alt="product 1" className="w-full" />
+                <div className="w-full">
+                    <div className="h-52 overflow-hidden m-auto">
+                        <img src={product_img} alt="product 1" className="w-full !h-full object-cover" />
+                    </div>
+                </div>
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
                     justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
                     <a onClick={() => navigate(`/shop/product/${product.id}`)}
@@ -34,10 +40,10 @@ const ProductCard = ({ product, toggleFavorite }) => {
                         title="view product">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </a>
-                    <a 
+                    <a
                         className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                         title="add to wishlist">
-                            {product.is_favorite ? <FontAwesomeIcon icon={faHeart} onClick={() => toggleFavorite(product.id)}/> : <FontAwesomeIcon icon={faHeartRegular} onClick={() => toggleFavorite(product.id)}/>}
+                        {product.is_favorite ? <FontAwesomeIcon icon={faHeart} onClick={() => toggleFavorite(product.id)} /> : <FontAwesomeIcon icon={faHeartRegular} onClick={() => toggleFavorite(product.id)} />}
                     </a>
                 </div>
             </div>
@@ -50,7 +56,7 @@ const ProductCard = ({ product, toggleFavorite }) => {
                 <div className="flex items-baseline mb-1 space-x-2">
                     <p className="text-xl text-primary font-semibold">{product.price} €</p>
                     {/* <p className="text-sm text-gray-400 line-through">$55.90</p> */}
-                    
+
                 </div>
                 <p className="text-sm text-gray-400">Stock: {product.stock}</p>
                 {/* <div className="flex items-center">

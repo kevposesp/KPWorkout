@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\FiltersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StripeController;
 use App\Http\Middleware\IsAdmin;
@@ -77,6 +78,13 @@ Route::group([
 
     // Orders
     Route::get('/orders', [OrdersController::class, 'index']);
+
+    // Filters
+    Route::post('/filters', [FiltersController::class, 'store']);
+    Route::put('/filters/{id}', [FiltersController::class, 'update']);
+    Route::delete('/filters/{id}', [FiltersController::class, 'destroy']);
+    Route::post('/filters/{id}/products/{productId}', [FiltersController::class, 'addOrRemoveProduct']);
+
 });
 
 // Products
@@ -87,3 +95,6 @@ Route::get('/products/{id}', [ProductsController::class, 'show']);
 // Categories
 Route::get('/categories', [CategoriesController::class, 'index']);
 Route::get('/categories/{id}', [CategoriesController::class, 'show']);
+
+// Filters
+Route::get('/filters', [FiltersController::class, 'index']);

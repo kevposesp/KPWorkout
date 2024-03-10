@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import ChartService from '@/services/ChartService';
+import OrderService from '@/services/OrderService';
 import JwtService from '@/services/JwtService';
 
 const Context = React.createContext({})
 
-export function ChartContext({ children }) {
-    const [productsChart, setProductsChart] = useState([]);
+export function OrderContext({ children }) {
+    const [orders, setOrders] = useState([]);
     const [token, setToken] = useState(JwtService.getToken ? JwtService.getToken : false);
 
     useEffect(function () {
         if (token) {
-            ChartService.Get()
+            OrderService.Get()
                 .then(({ data, status }) => {
                     if (status === 200) {
-                        setProductsChart(data.data);
+                        setOrders(data.data);
                     }
                 })
                 .catch(e => console.error(e));
         }
-    }, [setProductsChart]);
+    }, [setOrders]);
 
-    return <Context.Provider value={{ productsChart, setProductsChart }}>
+    return <Context.Provider value={{ orders, setOrders }}>
         {children}
     </Context.Provider>
 }

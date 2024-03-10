@@ -5,8 +5,12 @@ import serviceHours from '@/assets/images/icons/service-hours.svg';
 import ListCategoriesHome from '@/components/client/lists/ListCategoriesHome';
 import ListNewProducts from '@/components/client/lists/ListNewProducts';
 import Menu from '@/components/client/Menu';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
   return (
     <div className=''>
       <div className="relative w-full h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://picsum.photos/1200/300/?blur')" }}>
@@ -15,7 +19,7 @@ const Home = () => {
           <div className="text-center text-white">
             <h1 className="text-4xl font-bold">¡Bienvenido a nuestra tienda!</h1>
             <p className="mt-4 text-lg">Explora nuestras últimas ofertas</p>
-            <button className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Ver ofertas</button>
+            <button className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600" onClick={() => navigate('/shop')}>Ver ofertas</button>
           </div>
         </div>
       </div>
@@ -23,7 +27,7 @@ const Home = () => {
       {/* <!-- Menú principal --> */}
       <Menu />
 
-      <div className="container mx-auto my-3">
+      <div className="container mx-auto my-3 px-3 sm:px-6">
 
         {/* <!-- features --> */}
         <div className="container py-16">
