@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from 'flowbite-react';
+import ListFilters from '@/components/admin/Filters/ListFilters';
 
 const Filters = () => {
     return (
@@ -11,8 +12,7 @@ const Filters = () => {
 
             <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
-            <Card className='h-auto'>
-            </Card>
+            <ListFilters />
 
         </div>
     );

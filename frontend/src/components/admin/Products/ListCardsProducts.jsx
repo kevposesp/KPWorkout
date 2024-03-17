@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useProduct } from '@/hooks/useProduct';
-import { Card, List, Label, TextInput, Textarea, Select, Button } from 'flowbite-react';
+import { Card, List, Label, TextInput, Textarea, Select, Button, Table, Checkbox } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import ModalBase from '../../Modals/ModalBase';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
-const ListCardsProducts = ({ }) => {
+const ListCardsProducts = ({ settingsList = {
+    title: false
+} }) => {
 
     const { products, setProducts, getProducts, createProduct, deleteProduct } = useProduct();
 
@@ -31,11 +35,48 @@ const ListCardsProducts = ({ }) => {
         createProduct(productData);
     }
 
+    const rows = products.length > 0 ? products.map((product, index) => {
+        return (
+            <Table.Row className={`bg-white dark:border-gray-700 dark:bg-gray-800`} key={index}>
+                <Table.Cell className="p-4">
+                    <Checkbox />
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {product.slug}
+                </Table.Cell>
+                <Table.Cell>{product.name}</Table.Cell>
+                <Table.Cell className='hover:text-blue-500 hover:cursor-pointer'>
+                    {product.stock}
+                </Table.Cell>
+                <Table.Cell>{product.price}</Table.Cell>
+                <Table.Cell>
+                    <Button color="light" onClick={() => navigate("/admin/products/" + product.id)}>
+                        <FontAwesomeIcon icon={faEye} />
+                    </Button>
+                    <ModalBase settings={{ type: "delete", titleButton: "Delete", color: "failure" }} sendData={() => deleteProduct(product.id)}>
+                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            Are you sure you want to delete this incident?
+                        </h3>
+                    </ModalBase>
+                </Table.Cell>
+            </Table.Row>
+        )
+    }) : (
+        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="p-4 text-center" colSpan="6">
+                Not found products
+            </Table.Cell>
+        </Table.Row>
+    );
+
     return (
         <div>
-            <h1 className="m-4 text-2xl font-medium leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
-                Products
-            </h1>
+            {settingsList.title && (
+                <h1 className="m-4 text-2xl font-medium leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
+                    Products
+                </h1>
+            )}
 
             <div className='m-4'>
                 <ModalBase sendData={() => create()}>
@@ -98,44 +139,25 @@ const ListCardsProducts = ({ }) => {
 
             <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
-            <div className="container w-4/5 sm:w-auto mx-auto my-3 grid auto-rows-auto grid-cols-1 gap-1 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 lg:gap-4">
-                {products.map((product) => (
-                    <Card key={product.id} className="bg-white dark:bg-gray-800">
-                        <div className='h-full'>
-                            <p className="font-bold text-xl text-gray-700 dark:text-gray-400">
-                                {product.name}
-                            </p>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                {product.description}
-                            </p>
-                            <hr className="my-3 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-
-                            <div className="flex justify-between">
-                                <p className="text-gray-500 dark:text-gray-400">
-                                    {product.price}
-                                </p>
-                                <p className="text-gray-500 dark:text-gray-400">
-                                    Stock: {product.stock}
-                                </p>
-                            </div>
-                        </div>
-                        <div className='flex'>
-                            <Button className='mx-4' color="light" onClick={() => navigate("/admin/products/" + product.id)}>
-                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4 6-9 6s-9-4.8-9-6c0-1.2 4-6 9-6s9 4.8 9 6Z" />
-                                    <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                </svg>
-                            </Button>
-                            <ModalBase key={product.id} settings={{ type: "delete", titleButton: "Delete", color: "failure" }} sendData={() => deleteProduct(product.id)}>
-                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                    Are you sure you want to delete this incident?
-                                </h3>
-                            </ModalBase>
-                        </div>
-                    </Card>
-                ))}
-            </div>
+            <Card className='h-auto'>
+                <div className="overflow-x-auto">
+                    <Table hoverable>
+                        <Table.Head>
+                            <Table.HeadCell className="p-4">
+                                <Checkbox />
+                            </Table.HeadCell>
+                            <Table.HeadCell>Slug</Table.HeadCell>
+                            <Table.HeadCell>Name</Table.HeadCell>
+                            <Table.HeadCell>Stock</Table.HeadCell>
+                            <Table.HeadCell>Price</Table.HeadCell>
+                            <Table.HeadCell>Actions</Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body className="divide-y">
+                            {rows}
+                        </Table.Body>
+                    </Table>
+                </div>
+            </Card>
         </div>
 
     );

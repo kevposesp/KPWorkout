@@ -21,6 +21,15 @@ class CategoriesController extends Controller
     }
 
     /**
+     * Display all categories with parent if exists.
+     */
+    public function allCategories()
+    {
+        $categories = Categories::with('parentCategory')->get();
+        return response()->json($categories, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -70,6 +79,19 @@ class CategoriesController extends Controller
             'image' => 'required'
         ]);
 
+        $parent_id = $request->input('parent_id');
+
+        if ($parent_id) {
+            $parentCategory = Categories::findOrFail($parent_id);
+            if (!$parentCategory->is_leaf) {
+                return response()->json(['message' => 'Cannot create a subcategory under a non-leaf category'], 422);
+            }
+            $request['is_leaf'] = 0;
+        } else {
+            $request['is_leaf'] = 1;
+            $request['parent_id'] = null;
+        }
+
         $category = Categories::findOrFail($id);
         $category->update($request->all());
 
@@ -87,6 +109,8 @@ class CategoriesController extends Controller
         if ($category->childrenCategories()->exists()) {
             return response()->json(['message' => 'Cannot delete a category with subcategories'], 422);
         }
+
+        $category->products()->detach();
 
         $category->delete();
 

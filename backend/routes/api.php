@@ -71,6 +71,7 @@ Route::group([
     Route::post('/products/{id}/categories', [ProductsController::class, 'updateCategory']);
 
     // Categories
+    Route::get('/categories/all', [CategoriesController::class, 'allCategories']);
     Route::post('/categories', [CategoriesController::class, 'store']);
     Route::put('/categories/{id}', [CategoriesController::class, 'update']);
     Route::delete('/categories/{id}', [CategoriesController::class, 'destroy']);
