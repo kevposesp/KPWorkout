@@ -12,8 +12,16 @@ const CategoryService = {
 
     Delete(id) {
         return Api().delete(`categories/${id}`);
-    }
+    },
 
+    GetAll() {
+        return Api().get('categories/all');
+    },
+
+    Update(id, categoryData) {
+        return Api().put(`categories/${id}`, categoryData);
+    }
+    
 }
 
 export default CategoryService;

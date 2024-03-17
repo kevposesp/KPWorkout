@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import './App.css'
 
@@ -105,7 +105,7 @@ function App() {
                             <Route path="filters/*" element={<Filters />} />
                           </Route>
                         </Route>
-
+                        <Route path="*" element={<Navigate to="/" />} />
                       </Routes>
                       {/* </div> */}
                       <Toastr></Toastr>

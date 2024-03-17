@@ -9,7 +9,9 @@ function ModalComponent({
     type: 'create',
     color: 'blue',
     classButton: false,
-    divClass: 'text-center'
+    divClass: 'text-center',
+    okkayButton: 'Yes, I\'m sure',
+    closeButton: 'No, cancel'
   }
 }) {
 
@@ -18,7 +20,9 @@ function ModalComponent({
     type: settings.type || 'create',
     color: settings.color || 'blue',
     classButton: settings.classButton || false,
-    divClass: settings.divClass || 'text-center'
+    divClass: settings.divClass || 'text-center',
+    okkayButton: settings.okkayButton == false ? false : settings.okkayButton || 'Yes, I\'m sure',
+    closeButton: settings.closeButton == false ? false : settings.closeButton || 'No, cancel'
   });
   const [openModal, setOpenModal] = useState(false);
 
@@ -35,12 +39,16 @@ function ModalComponent({
           <div className={settingsModal.divClass}>
             {children}
             <div className="flex justify-center gap-4 mt-3">
-              <Button color={settingsModal.color} onClick={() => { setOpenModal(false); sendData(true) }}>
-                {"Yes, I'm sure"}
-              </Button>
-              <Button color="gray" onClick={() => setOpenModal(false)}>
-                No, cancel
-              </Button>
+              {settingsModal.okkayButton && (
+                <Button color={settingsModal.color} onClick={() => { setOpenModal(false); sendData(true) }}>
+                  {settingsModal.okkayButton}
+                </Button>
+              )}
+              {settingsModal.closeButton && (
+                <Button color="gray" onClick={() => setOpenModal(false)}>
+                  {settingsModal.closeButton}
+                </Button>
+              )}
             </div>
           </div>
         </Modal.Body>

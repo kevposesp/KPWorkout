@@ -12,6 +12,7 @@ export function useCategory() {
         CategoryService.Create(categoryData)
             .then(({ data, status }) => {
                 if (status === 201) {
+                    console.log(data);
                     if (!categoryData.parent_id) {
                         data['children_categories'] = []
                         setCategories([...categories, data])
@@ -43,7 +44,37 @@ export function useCategory() {
                 useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
             });
     }, [categories]);
+
+    const getAllCategories = useCallback(() => {
+        CategoryService.GetAll()
+            .then(({ data }) => {
+                console.log(data);
+                setCategories(data)
+            })
+            .catch(e => {
+                useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
+            });
+    }, []);
+
+    const updateCategory = useCallback((id, categoryData) => {
+        CategoryService.Update(id, categoryData)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    console.log(data);
+                    setCategories(categories.map(category => {
+                        if (category.id === id) {
+                            category = data;
+                        }
+                        return category;
+                    }))
+                    useCreateToastr({ status: true })
+                }
+            })
+            .catch(e => {
+                useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
+            });
+    }, [categories]);
     
-    return { categories, setCategories, createCategory, deleteCategory };
+    return { categories, setCategories, createCategory, deleteCategory, getAllCategories, updateCategory };
 
 }
