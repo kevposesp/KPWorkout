@@ -60,94 +60,100 @@ class ProductsController extends Controller
      */
     public function allFiltered(Request $request)
     {
-        $products = Products::query();
+        // $products = Products::query();
 
-        // Filtrar por texto en nombre o descripción
-        if ($request->has('text')) {
-            $text = $request->input('text');
-            $products->where(function ($query) use ($text) {
-                $query->where('name', 'like', "%$text%")
-                    ->orWhere('description', 'like', "%$text%");
-            });
-        }
+        // // Filtrar por texto en nombre o descripción
+        // if ($request->has('text')) {
+        //     $text = $request->input('text');
+        //     $products->where(function ($query) use ($text) {
+        //         $query->where('name', 'like', "%$text%")
+        //             ->orWhere('description', 'like', "%$text%");
+        //     });
+        // }
 
-        // Filtrar por rango de precio mínimo
-        if ($request->has('minPrice')) {
-            $minPrice = $request->input('minPrice');
-            $products->where('price', '>=', $minPrice);
-        }
+        // // Filtrar por rango de precio mínimo
+        // if ($request->has('minPrice')) {
+        //     $minPrice = $request->input('minPrice');
+        //     $products->where('price', '>=', $minPrice);
+        // }
 
-        // Filtrar por rango de precio máximo
-        if ($request->has('maxPrice')) {
-            $maxPrice = $request->input('maxPrice');
-            if ($maxPrice > 0) {
-                $products->where('price', '<=', $maxPrice);
-            }
-        }
+        // // Filtrar por rango de precio máximo
+        // if ($request->has('maxPrice')) {
+        //     $maxPrice = $request->input('maxPrice');
+        //     if ($maxPrice > 0) {
+        //         $products->where('price', '<=', $maxPrice);
+        //     }
+        // }
 
-        // Filtrar por cantidad de stock mínimo
-        if ($request->has('stock')) {
-            $stock = $request->input('stock');
-            $products->where('stock', '>=', $stock);
-        }
+        // // Filtrar por cantidad de stock mínimo
+        // if ($request->has('stock')) {
+        //     $stock = $request->input('stock');
+        //     $products->where('stock', '>=', $stock);
+        // }
 
-        // Filtrar por categorías
-        if ($request->has('categories')) {
-            $categories = $request->input('categories');
-            if ($categories && is_array($categories) && count($categories) > 0) {
-                $categories = Categories::whereIn('id', $categories)->get()->pluck('id')->toArray();
-                $categories = array_merge($categories, Categories::whereIn('parent_id', $categories)->get()->pluck('id')->toArray());
-                $products->whereHas('categories', function ($query) use ($categories) {
-                    $query->whereIn('categories.id', $categories);
-                });
-            }
-        }
+        // // Filtrar por categorías
+        // if ($request->has('categories')) {
+        //     $categories = $request->input('categories');
+        //     if ($categories && is_array($categories) && count($categories) > 0) {
+        //         $categories = Categories::whereIn('id', $categories)->get()->pluck('id')->toArray();
+        //         $categories = array_merge($categories, Categories::whereIn('parent_id', $categories)->get()->pluck('id')->toArray());
+        //         $products->whereHas('categories', function ($query) use ($categories) {
+        //             $query->whereIn('categories.id', $categories);
+        //         });
+        //     }
+        // }
 
-        // Filtrar por filtros
-        if ($request->has('filters')) {
-            $filters = $request->input('filters');
-            if ($filters && is_array($filters) && count($filters) > 0) {
-                $products->whereHas('filters', function ($query) use ($filters) {
-                    $query->whereIn('filters.id', $filters);
-                });
-            }
-        }
+        // // Filtrar por filtros
+        // if ($request->has('filters')) {
+        //     $filters = $request->input('filters');
+        //     if ($filters && is_array($filters) && count($filters) > 0) {
+        //         $products->whereHas('filters', function ($query) use ($filters) {
+        //             $query->whereIn('filters.id', $filters);
+        //         });
+        //     }
+        // }
 
-        // Filtrar cantidad de resultados
-        if ($request->has('quantity')) {
-            $quantity = $request->input('quantity');
-            $products = $products->limit($quantity);
-        }
+        // // Filtrar cantidad de resultados
+        // if ($request->has('quantity')) {
+        //     $quantity = $request->input('quantity');
+        //     $products = $products->limit($quantity);
+        // }
 
-        // Ordenar resultados
-        if ($request->has('orderBy') && $request->has('order')) {
-            $orderBy = $request->input('orderBy');
-            if ($orderBy != '') {
-                $order = $request->input('order') === 'desc' ? 'desc' : 'asc';
-                $products->orderBy($orderBy, $order);
-            }
-        }
+        // // Ordenar resultados
+        // if ($request->has('orderBy') && $request->has('order')) {
+        //     $orderBy = $request->input('orderBy');
+        //     if ($orderBy != '') {
+        //         $order = $request->input('order') === 'desc' ? 'desc' : 'asc';
+        //         $products->orderBy($orderBy, $order);
+        //     }
+        // }
 
-        // Excluir product id
-        if ($request->has('exclude')) {
-            $exclude = $request->input('exclude');
-            $products->where('id', '!=', $exclude);
-        }
+        // // Excluir product id
+        // if ($request->has('exclude')) {
+        //     $exclude = $request->input('exclude');
+        //     $products->where('id', '!=', $exclude);
+        // }
+
+        // // Paginacion con limit y offset
+        // $limit = $request->input('limit') || 6;
+        // $offset = $request->input('offset') || 0;
+        // $products = $products->limit($limit)->offset($offset);
 
 
-        // Obtener el usuario autenticado, si existe
-        $user = User::find(auth()->user()->id ?? null);
+        // // Obtener el usuario autenticado, si existe
+        // $user = User::find(auth()->user()->id ?? null);
 
-        // Si el usuario está autenticado, obtener sus productos favoritos
-        $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
+        // // Si el usuario está autenticado, obtener sus productos favoritos
+        // $favoriteProducts = $user ? $user->favoriteProducts()->pluck('product_id')->toArray() : [];
 
-        // Modificar los resultados para incluir información sobre si son favoritos o no
-        $products = $products->get()->map(function ($product) use ($favoriteProducts) {
-            $product->is_favorite = in_array($product->id, $favoriteProducts);
-            return $product;
-        });
+        // // Modificar los resultados para incluir información sobre si son favoritos o no
+        // $products = $products->get()->map(function ($product) use ($favoriteProducts) {
+        //     $product->is_favorite = in_array($product->id, $favoriteProducts);
+        //     return $product;
+        // });
 
-        return response()->json($products, 200);
+        // return response()->json($products, 200);
+        return $this->allFilteredA($request);
     }
 
     /**
@@ -208,12 +214,6 @@ class ProductsController extends Controller
             }
         }
 
-        // Filtrar cantidad de resultados
-        if ($request->has('quantity')) {
-            $quantity = $request->input('quantity');
-            $products = $products->limit($quantity);
-        }
-
         // Ordenar resultados
         if ($request->has('orderBy') && $request->has('order')) {
             $orderBy = $request->input('orderBy');
@@ -229,6 +229,12 @@ class ProductsController extends Controller
             $products->where('id', '!=', $exclude);
         }
 
+        $products_count = $products->count();
+        // Paginacion con limit y offset
+        $limit = $request->input('limit') ?: 6;
+        $offset = $request->input('offset') ?: 0;
+        $products = $products->limit($limit)->offset($offset * $limit);
+
         // Obtener el usuario autenticado, si existe
         $user = User::find(auth()->user()->id ?? null);
 
@@ -241,7 +247,13 @@ class ProductsController extends Controller
             return $product;
         });
 
-        return response()->json($products, 200);
+        // Objeto con productos y total de productos
+        $response = [
+            'products' => $products,
+            'total' => $products_count
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -286,6 +298,9 @@ class ProductsController extends Controller
 
         // Devolver categorias
         $product->categories = $product->categories()->get();
+
+        // Devolver array de ids filtros
+        $product->filters = $product->filters()->pluck('filter_id')->toArray();
 
         return response()->json($product, 200);
     }
@@ -334,7 +349,7 @@ class ProductsController extends Controller
     public function destroy(string $id)
     {
         $product = Products::findOrFail($id);
-        $product->delete();
+        $product->update(['status' => 'deleted']);
 
         return response()->json(null, 204);
     }

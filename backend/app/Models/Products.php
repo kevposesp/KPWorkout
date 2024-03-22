@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class Products extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'price', 'stock', 'slug'
+        'name', 'description', 'price', 'stock', 'slug', 'status'
     ];
 
     protected $appends = ['images'];
@@ -25,6 +26,13 @@ class Products extends Model
             get: fn ($value) => $value,
             set: fn ($value) => Str::slug($this->name) . '-' . Str::random(5)
         );
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('status', function (Builder $builder) {
+            $builder->where('status', 'active');
+        });
     }
 
     public function categories(): BelongsToMany
@@ -50,6 +58,12 @@ class Products extends Model
     public function filters()
     {
         return $this->belongsToMany(Filters::class, 'products_filters', 'product_id', 'filter_id');
+    }
+
+    // Define un alcance local para incluir productos inactivos
+    public function scopeWithInactive($query)
+    {
+        return $query->withoutGlobalScope('status');
     }
 
 }

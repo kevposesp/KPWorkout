@@ -19,7 +19,7 @@ import { useParams } from 'react-router-dom';
 
 const Shop = () => {
 
-    const { products, getProductsFiltered, toggleFavorite } = useProduct();
+    const { products, getProductsFiltered, toggleFavorite, totalProducts } = useProduct();
 
     const [act, setAct] = useState('-translate-x-full');
     const { filters } = useParams();
@@ -143,7 +143,7 @@ const Shop = () => {
 
                         </div>
 
-                        <Pagination />
+                        <Pagination totalPages={totalProducts}/>
 
                     </div>
                 </div>

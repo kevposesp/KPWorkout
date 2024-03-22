@@ -32,6 +32,7 @@ const Filters = () => {
         if (filters) {
             let oldFilters = JSON.parse(atob(filters));
             oldFilters.filters = updatedFilters;
+            oldFilters.offset = 0;
             const filtersString = btoa(JSON.stringify(oldFilters));
             navigate(`/shop/${filtersString}`);
         } else {
@@ -58,6 +59,7 @@ const Filters = () => {
                                     checked={filtersAll && filtersAll.includes(fil.id)}
                                 />
                                 <label htmlFor={`fil-${fil.id}`} className="text-gray-600 ml-3 cursor-pointer">{fil.name}</label>
+                                <div className="ml-auto text-gray-600 text-sm">({fil.products_count})</div>
                             </div>
                         </div>
                     ))}

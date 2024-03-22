@@ -23,7 +23,7 @@ const CarouselDetails = ({ images }) => {
                     <img src={images[current]} alt="product" className="w-full !h-full object-cover" />
                 </div>
             </div>
-            <div className="grid grid-cols-5 gap-4 mt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
                 {images.map((product, index) => (
                     <div className="h-36 overflow-hidden rounded-lg w-full m-auto">
                         <img

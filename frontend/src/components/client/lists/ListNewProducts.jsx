@@ -8,7 +8,7 @@ const ListNewProducts = () => {
     const { products, getProductsFiltered, toggleFavorite } = useProduct();
 
     useEffect(() => {
-        getProductsFiltered({ quantity: 4, orderBy: 'created_at', order: 'desc'});
+        getProductsFiltered({ limit: 4, orderBy: 'created_at', order: 'desc'});
     }, [getProductsFiltered]);
 
     return (

@@ -32,6 +32,7 @@ const Price = () => {
             let oldFilters = JSON.parse(atob(filters));
             oldFilters.minPrice = name === 'min' ? parseInt(value) : priceFilters.min;
             oldFilters.maxPrice = name === 'max' ? parseInt(value) : priceFilters.max;
+            oldFilters.offset = 0;
             const filtersString = btoa(JSON.stringify(oldFilters));
             navigate(`/shop/${filtersString}`);
         } else {
@@ -42,6 +43,7 @@ const Price = () => {
             const filtersString = btoa(JSON.stringify(filtersObject));
             navigate(`/shop/${filtersString}`);
         }
+        
     };
 
     return (

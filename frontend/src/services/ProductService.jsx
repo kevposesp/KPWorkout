@@ -31,6 +31,14 @@ const ProductService = {
 
     Delete(id) {
         return Api().delete(`products/${id}`);
+    },
+
+    ToggleCategory(id, category) {
+        return Api().post(`categories/${category}/products/`, {product_id: id});
+    },
+
+    ToggleFilter(id, filter) {
+        return Api().post(`filters/${filter}/products/${id}/`);
     }
 
 }
