@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Menu from '@/components/client/Menu';
 import '@/assets/css/template.scss';
-import CarouselDetails from '@/components/client/product/CarouselDetails';
+import CarouselDetails from '@/components/product/CarouselDetails';
 import ListRelatedProducts from '@/components/client/lists/ListRelatedProducts';
 import { useProduct } from '@/hooks/useProduct';
 import { useChart } from '@/hooks/useChart';
@@ -32,10 +32,10 @@ const ProductDetail = () => {
     }
 
     return (
-        <div className="">
+        <div className="p-2">
             <Menu />
             {Object.entries(product).length > 0 && (
-                <div className="temp container grid grid-cols-2 gap-6 m-auto mt-20">
+                <div className="temp container grid grid-cols-1 md:grid-cols-2 gap-6 m-auto mt-20">
                     <CarouselDetails images={product.images} />
 
                     <div>
@@ -150,7 +150,7 @@ const ProductDetail = () => {
             )}
             {Object.entries(product).length > 0 && (
                 <div className="container m-auto">
-                    <ListRelatedProducts id_category={product.categories[0].id} id_product={product.id}/>
+                    <ListRelatedProducts categ={product.categories} id_product={product.id}/>
                 </div>
             )}
 

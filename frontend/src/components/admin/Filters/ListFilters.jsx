@@ -1,39 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFilter } from '@/hooks/useFilter';
 import { Card, Label, TextInput, Button, Table, Checkbox, List } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import ModalBase from '../../Modals/ModalBase';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faFloppyDisk, faPen } from '@fortawesome/free-solid-svg-icons';
 
 const ListFilters = ({ settingsList = {
     title: false
 } }) => {
 
-    const { filtersHook } = useFilter();
+    const { filtersHook, createFilter, deleteFilter, updateFilter } = useFilter();
 
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('Marca');
     const [name, setName] = useState('Mercedes');
+    const [filterEdit, setFilterEdit] = useState(0);
 
     function create() {
         const filterData = {
             title,
             name
         };
-        console.log(filterData);
-        // createCategory(filterData);
+        createFilter(filterData);
     }
 
-    function update() {
+    function update(id) {
+        setFilterEdit(0);
         const filterData = {
+            id,
             title,
             name
         };
-        console.log(filterData);
-        // createCategory(filterData);
+        updateFilter(filterData);
     }
 
     const rows = Object.entries(filtersHook).length > 0 ? Object.entries(filtersHook).map(([category, filters], index) => {
@@ -73,28 +74,38 @@ const ListFilters = ({ settingsList = {
                                 <List>
                                     {filters.map(filter => (
                                         <List.Item key={filter.id} className='flex justify-between items-center'>
-                                            {filter.name}
-                                            <ModalBase settings={{ type: "delete", titleButton: "Delete", color: "failure" }} sendData={() => deleteFilter(filter.id)}>
-                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                    Are you sure you want to delete this incident?
-                                                </h3>
-                                            </ModalBase>
+                                            {filterEdit === filter.id ? (
+                                                <TextInput
+                                                    id="name"
+                                                    placeholder="Incident Name"
+                                                    value={name}
+                                                    onChange={(event) => setName(event.target.value)}
+                                                    required
+                                                />
+                                            ) : (
+                                                filter.name
+                                            )}
+                                            <div className='flex'>
+                                                {filterEdit != filter.id ? (
+                                                    <Button color='green' className='mr-1' onClick={() => { setFilterEdit(filter.id); setTitle(category); setName(filter.name) }}>
+                                                        <FontAwesomeIcon icon={faPen} />
+                                                    </Button>
+                                                ) : (
+                                                    <Button color='green' className='mr-1' onClick={() => update(filter.id)}>
+                                                        <FontAwesomeIcon icon={faFloppyDisk} />
+                                                    </Button>
+                                                )}
+                                                <ModalBase settings={{ type: "delete", titleButton: "Delete", color: "failure" }} sendData={() => deleteFilter(filter.id)}>
+                                                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                        Are you sure you want to delete this incident?
+                                                        {filter.id}
+                                                    </h3>
+                                                </ModalBase>
+                                            </div>
                                         </List.Item>
                                     ))}
                                 </List>
-                            </div>
-                            <div className='my-6'>
-                                <div className="mb-2 block">
-                                    <Label htmlFor="name" value="Name" />
-                                </div>
-                                <TextInput
-                                    id="name"
-                                    placeholder="Incident Name"
-                                    value={name}
-                                    onChange={(event) => setName(event.target.value)}
-                                    required
-                                />
                             </div>
                         </div>
                     </ModalBase>
@@ -132,7 +143,15 @@ const ListFilters = ({ settingsList = {
                                 value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                                 required
+                                list="titles-list"
                             />
+                            <datalist id="titles-list" className="mt-1">
+                                {Object.entries(filtersHook).map(([category, filters], index) => {
+                                    return (
+                                        <option key={index} value={category} />
+                                    )
+                                })}
+                            </datalist>
                         </div>
                         <div className='my-6'>
                             <div className="mb-2 block">

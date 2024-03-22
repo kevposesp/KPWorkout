@@ -23,16 +23,26 @@ const ListCardsProducts = ({ settingsList = {
     const [description, setDescription] = useState('Compra nuestros polvos de proteína de suero de alta calidad, batidos y mezclas de suplementos diseñados para apoyar el crecimiento y el mantenimiento de tu masa muscular. Nuestra selección incluye suplementos de concentrado de suero, mezclas para ganar peso, snacks de proteínas y mucho más.');
     const [price, setPrice] = useState(10.99);
     const [stock, setStock] = useState(100);
+    const [images, setImages] = useState([]);
+    const [image, setImage] = useState('https://images.unsplash.com/photo-1612830725323-3e3e6e3e3e3e');
 
     function create() {
         const productData = {
             name,
             description,
             price,
-            stock
+            stock,
+            images
         };
 
         createProduct(productData);
+    }
+
+    function addImage() {
+        if (image !== '' && !images.includes(image)) {
+            setImages([...images, image]);
+        }
+        setImage('');
     }
 
     const rows = products.length > 0 ? products.map((product, index) => {
@@ -119,6 +129,32 @@ const ListCardsProducts = ({ settingsList = {
                                 onChange={(event) => setPrice(event.target.value)}
                                 required
                             />
+                        </div>
+                        <div className='my-6'>
+                            <div className="mb-2 block">
+                                <Label htmlFor="image" value="Images" />
+                            </div>
+                            <div className="flex">
+                                <TextInput
+                                    id="image"
+                                    placeholder="URL image"
+                                    value={image}
+                                    onChange={(event) => setImage(event.target.value)}
+                                    required
+                                    className='w-full'
+                                />
+                                <Button color='green' className='ms-2' onClick={() => addImage()}>Save</Button>
+                            </div>
+                            <div className="flex flex-wrap">
+                                {images.map((image, index) => (
+                                    <div className='flex mt-2' key={index}>
+                                        <div className="w-full">
+                                            {image}
+                                        </div>
+                                        <Button color='red' className='ms-2' onClick={() => setImages(images.filter((item, i) => i !== index))}>Delete</Button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <div className='my-6'>
                             <div className="mb-2 block">

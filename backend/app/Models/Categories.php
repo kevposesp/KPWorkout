@@ -51,13 +51,14 @@ class Categories extends Model
 
     protected function calculateTotalProductsCount(): int
     {
-        $totalCount = $this->products()->count();
+        $productIds = $this->products()->pluck('products.id')->toArray();
 
         foreach ($this->childrenCategories as $child) {
-            $totalCount += $child->calculateTotalProductsCount();
+            $productIds = array_merge($productIds, $child->products()->pluck('products.id')->toArray());
         }
+
+        $totalCount = count(array_unique($productIds));
 
         return $totalCount;
     }
-
 }

@@ -20,6 +20,7 @@ class FiltersController extends Controller
             $title = $filter->title;
             $name = $filter->name;
             $id = $filter->id;
+            $productsCount = $filter->products_count;
 
             if (!isset($filteredData[$title])) {
                 $filteredData[$title] = [];
@@ -28,6 +29,7 @@ class FiltersController extends Controller
             $filteredData[$title][] = [
                 'id' => $id,
                 'name' => $name,
+                'products_count' => $productsCount
             ];
         }
 
@@ -47,7 +49,8 @@ class FiltersController extends Controller
 
         $filter = Filters::create($request->all());
 
-        return response()->json($filter, 201);
+        return $this->index();
+        // return response()->json($filter, 201);
     }
 
     /**
@@ -63,7 +66,8 @@ class FiltersController extends Controller
         $filter = Filters::findOrFail($id);
         $filter->update($request->all());
 
-        return response()->json($filter, 200);
+        return $this->index();
+        // return response()->json($filter, 200);
     }
 
     /**
@@ -74,7 +78,8 @@ class FiltersController extends Controller
         $filter = Filters::findOrFail($id);
         $filter->delete();
 
-        return response()->json(null, 204);
+        return $this->index();
+        // return response()->json(null, 204);
     }
 
     /**

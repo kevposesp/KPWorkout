@@ -6,6 +6,7 @@ export function useProduct() {
 
     const [products, setProducts] = useState([])
     const [product, setProduct] = useState({})
+    const [totalProducts, setTotalProducts] = useState(0)
     const { useCreateToastr } = useToastr();
 
     const getProducts = useCallback(() => {
@@ -32,7 +33,8 @@ export function useProduct() {
         ProductService.GetFiltered(filters)
             .then(({ data, status }) => {
                 if (status === 200) {
-                    setProducts(data);
+                    setTotalProducts(data.total);
+                    setProducts(data.products);
                 }
             })
             .catch(e => console.error(e));
@@ -89,6 +91,30 @@ export function useProduct() {
             });
     }, [products]);
 
+    const toggleCategory = useCallback((id, category) => {
+        ProductService.ToggleCategory(id, category)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    useCreateToastr({ status: true })
+                }
+            })
+            .catch(e => {
+                useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
+            });
+    }, [products]);
+
+    const toggleFilter = useCallback((id, filter) => {
+        ProductService.ToggleFilter(id, filter)
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    useCreateToastr({ status: true })
+                }
+            })
+            .catch(e => {
+                useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
+            });
+    }, [products]);
+
     return {
         products,
         product,
@@ -99,7 +125,10 @@ export function useProduct() {
         createProduct,
         toggleFavorite,
         getWishlist,
-        deleteProduct
+        deleteProduct,
+        toggleCategory,
+        toggleFilter,
+        totalProducts
     };
 
 }
