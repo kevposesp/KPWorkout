@@ -21,7 +21,6 @@ const Pagination = ({ totalPages }) => {
 
     const handlePageChange = (newPage) => {
         setPage(newPage);
-        console.log(newPage);
         if (filters) {
             let oldFilters = JSON.parse(atob(filters));
             oldFilters.offset = newPage - 1;

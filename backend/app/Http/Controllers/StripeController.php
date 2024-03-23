@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
@@ -17,8 +19,16 @@ class StripeController extends Controller
 
     public function createPaymentIntent(Request $request)
     {
+        $chart = auth()->user()->chart;
+
+        $totalAmount = 0;
+
+        foreach ($chart as $product) {
+            $totalAmount += $product->price * $product->pivot->quantity;
+        }
+
         $intent = \Stripe\PaymentIntent::create([
-            'amount' => 1000,
+            'amount' => $totalAmount * 100,
             'currency' => 'eur'
         ]);
 
@@ -31,6 +41,24 @@ class StripeController extends Controller
         $intent = \Stripe\PaymentIntent::retrieve(
             $request->payment_intent_id
         );
+
+        if ($intent->status == 'succeeded') {
+            $order = new Orders();
+            $order->fill($request->orderData);
+            $order->user_id = auth()->id();
+            $order->save();
+
+            $chart = auth()->user()->chart;
+
+            foreach ($chart as $product) {
+                $order->products()->attach($product->id, ['quantity' => $product->pivot->quantity]);
+            }
+
+            $user = User::find(auth()->id());
+            $user->chart()->detach($chart);
+
+            return response()->json($order, 200);
+        }
 
         return response()->json(['payment_intent' => $intent]);
     }

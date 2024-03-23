@@ -4,6 +4,7 @@ import {
     useStripe,
     useElements
 } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckoutForm({ sendData }) {
     const stripe = useStripe();
@@ -11,6 +12,7 @@ export default function CheckoutForm({ sendData }) {
 
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!stripe) {
@@ -30,6 +32,9 @@ export default function CheckoutForm({ sendData }) {
                 case "succeeded":
                     sendData(paymentIntent.id);
                     setMessage("Payment succeeded!");
+                    localStorage.removeItem("orderData");
+                    localStorage.setItem('page', 'order')
+                    navigate("/profile");
                     break;
                 case "processing":
                     setMessage("Your payment is processing.");

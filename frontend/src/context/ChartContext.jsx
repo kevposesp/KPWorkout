@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import ChartService from '@/services/ChartService';
 import JwtService from '@/services/JwtService';
 
@@ -10,17 +10,21 @@ export function ChartContext({ children }) {
 
     useEffect(function () {
         if (token) {
-            ChartService.Get()
-                .then(({ data, status }) => {
-                    if (status === 200) {
-                        setProductsChart(data.data);
-                    }
-                })
-                .catch(e => console.error(e));
+            getProductsChart()
         }
     }, [setProductsChart]);
 
-    return <Context.Provider value={{ productsChart, setProductsChart }}>
+    const getProductsChart = useCallback(() => {
+        ChartService.Get()
+            .then(({ data, status }) => {
+                if (status === 200) {
+                    setProductsChart(data.data);
+                }
+            })
+            .catch(e => console.error(e));
+    }, [setProductsChart]);
+
+    return <Context.Provider value={{ productsChart, setProductsChart, getProductsChart }}>
         {children}
     </Context.Provider>
 }

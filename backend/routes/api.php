@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\FiltersController;
+use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StripeController;
 use App\Http\Middleware\IsAdmin;
@@ -57,6 +58,9 @@ Route::group([
     // Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
     Route::post('/retrieve-payment', [StripeController::class, 'retrievePaymentIntent']);
+
+    // Upload Image
+    Route::post('/upload-image', [ImageUploadController::class, 'store']);
 });
 
 // Admin Routes
