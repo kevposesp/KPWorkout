@@ -32,7 +32,9 @@ export default function PaymentPage() {
   };
 
   const chargeFunction = (res) => {
-    useCreateCharge(res);
+    let orderData = localStorage.getItem('orderData');
+    orderData = JSON.parse(orderData);
+    useCreateCharge(res, orderData);
   }
 
   return (

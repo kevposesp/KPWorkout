@@ -2,13 +2,13 @@ import axios from 'axios';
 import secrets from '../secrets';
 import JwtService from './JwtService';
 
-const useAxios = () => {
+const useAxios = (type = "application/json") => {
     let api = null;
     if (JwtService.getToken()) {
         api = axios.create({
             baseURL: secrets.URL_DRF,
             headers: {
-                "Content-type": "application/json",
+                "Content-type": type,
                 "Authorization": `Bearer ${JwtService.getToken()}`
             }
         });
@@ -17,7 +17,7 @@ const useAxios = () => {
         api = axios.create({
             baseURL: secrets.URL_DRF,
             headers: {
-                "Content-type": "application/json",
+                "Content-type": type,
             }
         });
     }

@@ -10,7 +10,6 @@ export function useOrder() {
     const { useCreateToastr } = useToastr();
 
     const getOrders = useCallback(() => {
-        console.log('getOrders');
         OrderService.Get()
             .then(({ data, status }) => {
                 if (status === 200) {
