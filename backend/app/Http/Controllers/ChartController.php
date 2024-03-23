@@ -23,14 +23,20 @@ class ChartController extends Controller
         $product = Products::findOrFail($id);
 
         if ($user->chart()->where('product_id', $product->id)->exists()) {
+            $currentQuantity = $user->chart()->where('product_id', $product->id)->value('quantity');
+            if ($currentQuantity + $qty > $product->stock) {
+                return response()->json(['error' => 'There is not enough stock'], 400);
+            }
             $user->chart()->updateExistingPivot($product->id, ['quantity' => DB::raw('quantity + ' . $qty)]);
-            // $user->chart()->updateExistingPivot($product->id, ['quantity' => DB::raw('quantity + 1')]);
         } else {
+            if ($product->stock < 1) {
+                return response()->json(['error' => 'There is not enough stock'], 400);
+            }
             $user->chart()->attach($product->id, ['quantity' => 1]);
         }
 
         $product = $user->chart()->where('product_id', $product->id)->first();
-        return response()->json(['message' => 'Producto añadido al carrito', 'product' => $product], 200);
+        return response()->json(['message' => 'Product added to cart', 'product' => $product], 200);
     }
 
     /**
@@ -53,9 +59,9 @@ class ChartController extends Controller
             } else {
                 $user->chart()->detach($product->id);
             }
-            return response()->json(['message' => 'Producto eliminado del carrito'], 200);
+            return response()->json(['message' => 'Product removed from cart'], 200);
         } else {
-            return response()->json(['error' => 'El producto no está en el carrito del usuario'], 404);
+            return response()->json(['error' => 'The product is not in the users cart'], 404);
         }
     }
 
@@ -74,9 +80,9 @@ class ChartController extends Controller
 
         if ($user->chart()->where('product_id', $product->id)->exists()) {
             $user->chart()->detach($product->id);
-            return response()->json(['message' => 'Producto eliminado del carrito'], 200);
+            return response()->json(['message' => 'Product removed from cart'], 200);
         } else {
-            return response()->json(['error' => 'El producto no está en el carrito del usuario'], 404);
+            return response()->json(['error' => 'The product is not in the users cart'], 404);
         }
     }
 }
