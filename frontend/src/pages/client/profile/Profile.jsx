@@ -12,6 +12,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBoxArchive, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons'
+import ImageUpload from '@/components/image/UploadImage';
 
 const Profile = () => {
 
@@ -47,7 +48,7 @@ const Profile = () => {
                 <div className="col-span-3">
                     <div className="px-4 py-3 shadow flex items-center gap-4">
                         <div className="flex-shrink-0">
-                            <img src="../assets/images/avatar.png" alt="profile"
+                            <img src={user.image_url} alt="profile"
                                 className="rounded-full w-14 h-14 border border-gray-200 p-1 object-cover" />
                         </div>
                         <div className="flex-grow">

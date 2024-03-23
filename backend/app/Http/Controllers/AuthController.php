@@ -84,6 +84,7 @@ class AuthController extends Controller
     {
 
         $userdata = auth()->user();
+        $userdata->image_url = asset($userdata->image_url);
 
         return response()->json([
             "status" => true,

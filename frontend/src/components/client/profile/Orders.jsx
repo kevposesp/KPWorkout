@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useOrder } from '@/hooks/useOrder';
 
 import { Button } from 'flowbite-react';
@@ -9,12 +9,17 @@ import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
 
-    const { orders } = useOrder();
+    const { orders, getOrders } = useOrder();
+
+    useEffect(() => {
+        getOrders();
+    }, [getOrders]);
+    
     const navigate = useNavigate();
 
     return (
         <div className="col-span-9 space-y-4">
-            {orders.length === 0 ? (<div className="text-center text-gray-600">No products in Chart</div>)
+            {orders.length === 0 ? (<div className="text-center text-gray-600">No orders found</div>)
                 : orders.map(order => (
                     <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded" key={order.id}>
                         <div className="flex items-center gap-4">

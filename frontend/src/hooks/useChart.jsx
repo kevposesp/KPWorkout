@@ -5,7 +5,7 @@ import ChartService from '@/services/ChartService';
 
 export function useChart() {
 
-    const { productsChart, setProductsChart } = useContext(ChartContext)
+    const { productsChart, setProductsChart, getProductsChart } = useContext(ChartContext)
     const { useCreateToastr } = useToastr();
 
     const addProduct = useCallback((id, qty = 1) => {
@@ -63,6 +63,6 @@ export function useChart() {
             .catch(e => console.error(e));
     }, [productsChart]);
 
-    return { productsChart, setProductsChart, addProduct, removeProduct, removeLine };
+    return { productsChart, setProductsChart, addProduct, removeProduct, removeLine, getProductsChart };
 
 }

@@ -17,6 +17,21 @@ const CheckOut = () => {
     const [city, setCity] = useState('')
     const [country, setCountry] = useState('')
 
+    const handleOrder = () => {
+        const data = {
+            first_name: name,
+            last_name: lastName,
+            email,
+            phone,
+            address,
+            city,
+            country
+        }
+        
+        localStorage.setItem('orderData', JSON.stringify(data));
+        navigate('payment')
+    }
+
     return (
         <div className="container m-auto grid grid-cols-12 items-start pb-16 pt-4 gap-6">
 
@@ -25,14 +40,6 @@ const CheckOut = () => {
                     CheckOut
                 </h1>
             </div>
-            {/* <div className="col-span-12">
-                <div className="flex items-center space-x-2">
-                    <a href="#" className="text-primary">Home</a>
-                    <span className="text-gray-400">/</span>
-                    <p>Checkout</p>
-                </div>
-            </div> */}
-
 
             <div className="temp container m-auto grid grid-cols-12 items-start pb-16 pt-4 gap-6 col-span-12">
                 <div className="col-span-8 border border-gray-200 p-4 rounded">
@@ -93,7 +100,7 @@ const CheckOut = () => {
 
                     <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
                         <p>subtotal</p>
-                        <p>{productsChart.reduce((a, o) => a + (o.price * o.pivot.quantity), 0)} €</p>
+                        <p>{(productsChart.reduce((a, o) => a + (o.price * o.pivot.quantity), 0)).toFixed(2)} €</p>
                     </div>
 
                     <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
@@ -103,17 +110,17 @@ const CheckOut = () => {
 
                     <div className="flex justify-between text-gray-800 font-medium py-3 uppercas">
                         <p className="font-semibold">Total</p>
-                        <p>{productsChart.reduce((a, o) => a + (o.price * o.pivot.quantity), 0) + 8} €</p>
+                        <p>{(productsChart.reduce((a, o) => a + (o.price * o.pivot.quantity), 0) + 8).toFixed(2)} €</p>
                     </div>
 
                     <div className="flex items-center mb-4 mt-2">
                         <input type="checkbox" name="aggrement" id="aggrement"
-                            className="text-primary focus:ring-0 rounded-sm cursor-pointer w-3 h-3" />
+                            className="text-primary focus:ring-0 rounded-sm cursor-pointer w-3 h-3" required/>
                         <label htmlFor="aggrement" className="text-gray-600 ml-3 cursor-pointer text-sm">I agree to the <a 
                             className="text-primary">terms & conditions</a></label>
                     </div>
 
-                    <a onClick={() => navigate('payment')}
+                    <a onClick={() => handleOrder()}
                         className="block w-full py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium">Place
                         order</a>
                 </div>
