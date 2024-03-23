@@ -25,7 +25,7 @@ const ModalUpdateImageProfile = ({ user }) => {
                                 className="rounded-full w-52 h-52 border border-gray-200 p-1 object-cover" />
                         </div>
                         <div>
-                            <UploadImage />
+                            <UploadImage sendData={() => setOpenModal(false)} />
                         </div>
                     </div>
                 </Modal.Body>
