@@ -39,7 +39,7 @@ class ImageUploadController extends Controller
 
 
             return response()->json([
-                'success' => 'Imagen cargada con éxito.',
+                'success' => 'Image uploaded successfully.',
                 'image_url' => asset($imagePath)
             ]);
         } catch (\Exception $e) {

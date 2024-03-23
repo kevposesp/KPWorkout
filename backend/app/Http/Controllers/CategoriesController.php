@@ -133,11 +133,11 @@ class CategoriesController extends Controller
         if ($category->products()->where('products.id', $product_id)->exists()) {
             // Si la relación existe, la eliminamos
             $category->products()->detach($product_id);
-            return response()->json(['message' => 'El producto fue eliminado de la categoría'], 200);
+            return response()->json(['message' => 'The product was removed from the category'], 200);
         }
 
         // Si la relación no existe, la agregamos
         $category->products()->attach($product_id);
-        return response()->json(['message' => 'El producto fue agregado a la categoría'], 200);
+        return response()->json(['message' => 'The product was added to the category'], 200);
     }
 }
