@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useImage } from '@/hooks/useImage';
+import { Button } from 'flowbite-react';
 
 function ImageUpload() {
 
     const { uploadImage } = useImage();
     const [image, setImage] = useState(null);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         const formData = new FormData();
         formData.append('image', image);
-        console.log(formData.get('image'));
         uploadImage(formData)
     };
 
@@ -19,9 +18,11 @@ function ImageUpload() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleFileChange} />
-            <button type="submit">Subir Imagen</button>
+        <form>
+            <input type="file" className='my-5' onChange={handleFileChange} />
+            <Button color="blue" onClick={() => { handleSubmit() }}>
+                Update
+            </Button>
         </form>
     );
 }
