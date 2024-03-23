@@ -5,6 +5,7 @@ import { useProduct } from '@/hooks/useProduct';
 import Menu from '@/components/client/Menu';
 
 import ProductCard from '@/components/client/cards/ProductCard';
+import ProductCardBanner from '@/components/client/cards/ProductCardBanner';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faGripVertical, faFilter } from '@fortawesome/free-solid-svg-icons'
@@ -16,6 +17,8 @@ import Filters from '@/components/client/filters/Filters';
 import Pagination from '@/components/client/filters/Pagination';
 
 import { useParams } from 'react-router-dom';
+import SkeletonProductCard from '@/components/skeletons/SkeletonProductCard';
+import SkeletonProductCardBanner from '@/components/skeletons/SkeletonProductCardBanner';
 
 const Shop = () => {
 
@@ -23,6 +26,8 @@ const Shop = () => {
 
     const [act, setAct] = useState('-translate-x-full');
     const { filters } = useParams();
+
+    const [formatList, setFormatList] = useState('grid');
 
     useEffect(() => {
         getProductsFiltered(formatFilters());
@@ -112,38 +117,54 @@ const Shop = () => {
                         </div>
 
                         <div className="flex items-center mb-4">
-                            {/* <select name="sort" id="sort" onChange={handleSortChange}
-                                className="w-44 text-sm text-gray-600 py-3 px-4 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary">
-                                <option value="">Default sorting</option>
-                                <option value="price-low-to-high">Price low to high</option>
-                                <option value="price-high-to-low">Price high to low</option>
-                                <option value="latest">Latest product</option>
-                            </select> */}
                             <Order />
 
                             <div className="flex gap-2 ml-auto">
                                 <div
-                                    className="border border-primary w-10 h-9 flex items-center justify-center text-white bg-primary rounded cursor-pointer">
+                                    className={`border w-10 h-9 flex items-center justify-center rounded cursor-pointer ${formatList === 'grid' ? 'text-white bg-primary border-primary' : 'text-gray-600 border-gray-300'}`}
+                                    onClick={() => setFormatList('grid')}>
                                     <FontAwesomeIcon icon={faGripVertical} />
 
                                 </div>
                                 <div
-                                    className="border border-gray-300 w-10 h-9 flex items-center justify-center text-gray-600 rounded cursor-pointer">
+                                    className={`border w-10 h-9 items-center justify-center rounded cursor-pointer hidden md:flex ${formatList === 'list' ? 'text-white bg-primary border-primary' : 'text-gray-600 border-gray-300'}`}
+                                    onClick={() => setFormatList('list')}>
                                     <FontAwesomeIcon icon={faList} />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:!grid-cols-2 md:!grid-cols-3 gap-6">
+                        <div className={`${formatList === 'grid' ? 'grid grid-cols-1 sm:!grid-cols-2 md:!grid-cols-3 gap-6' : 'grid grid-cols-1 gap-6'}`}>
                             {products.length > 0 ? (
-                                products.map((product) => <ProductCard product={product} key={product.id} toggleFavorite={toggleFavorite} />)
+                                products.map((product) => {
+                                    return formatList == 'grid' ?
+                                        <ProductCard product={product} key={product.id} toggleFavorite={toggleFavorite} /> :
+                                        <ProductCardBanner product={product} key={product.id} toggleFavorite={toggleFavorite} />
+                                })
                             ) : (
-                                <div className="col-span-3 text-center text-gray-500">No products found</div>
+                                <>
+                                    {formatList === 'grid' ? (
+                                        <>
+                                            <SkeletonProductCard />
+                                            <SkeletonProductCard />
+                                            <SkeletonProductCard />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <SkeletonProductCardBanner />
+                                            <SkeletonProductCardBanner />
+                                            <SkeletonProductCardBanner />
+                                        </>
+                                    )}
+
+                                    <div className={`text-center text-gray-500 ${formatList == 'grid' ? 'col-span-3' : ''}`}>No products found</div>
+                                </>
+
                             )}
 
                         </div>
 
-                        <Pagination totalPages={totalProducts}/>
+                        <Pagination totalPages={totalProducts} />
 
                     </div>
                 </div>

@@ -17,9 +17,9 @@ const Home = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-4xl font-bold">¡Bienvenido a nuestra tienda!</h1>
-            <p className="mt-4 text-lg">Explora nuestras últimas ofertas</p>
-            <button className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600" onClick={() => navigate('/shop')}>Ver ofertas</button>
+            <h1 className="text-4xl font-bold">Welcome to our shop!</h1>
+            <p className="mt-4 text-lg">Explore our latest offers</p>
+            <button className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600" onClick={() => navigate('/shop')}>Show offers</button>
           </div>
         </div>
       </div>
@@ -42,8 +42,8 @@ const Home = () => {
             <div className="border border-primary rounded-sm px-3 py-6 flex justify-center items-center gap-5">
               <img src={moneyBack} alt="Delivery" className="w-12 h-12 object-contain" />
               <div>
-                <h4 className="font-medium capitalize text-lg">Money Rturns</h4>
-                <p className="text-gray-500 text-sm">30 days money returs</p>
+                <h4 className="font-medium capitalize text-lg">Money Returns</h4>
+                <p className="text-gray-500 text-sm">30 days money returns</p>
               </div>
             </div>
             <div className="border border-primary rounded-sm px-3 py-6 flex justify-center items-center gap-5">
