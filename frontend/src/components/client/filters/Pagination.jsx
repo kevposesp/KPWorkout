@@ -19,11 +19,15 @@ const Pagination = ({ totalPages }) => {
         }
     }, [page, filters]);
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = (newPage, newLimit = limit) => {
         setPage(newPage);
         if (filters) {
             let oldFilters = JSON.parse(atob(filters));
             oldFilters.offset = newPage - 1;
+            if (newLimit) {
+                oldFilters.limit = newLimit;
+                setLimit(newLimit);
+            }
             const filtersString = btoa(JSON.stringify(oldFilters));
             navigate(`/shop/${filtersString}`);
         } else {
@@ -55,6 +59,13 @@ const Pagination = ({ totalPages }) => {
                             <a class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700" onClick={() => page < totalPages / limit ? handlePageChange(page + 1) : ''}>Next</a>
                         </li>
                     </ul>
+                    <select name="sort" id="sort"
+                        className="w-16 text-sm text-gray-600 py-3 px-4 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary"
+                        onChange={(event) => handlePageChange(1, event.target.value)}>
+                        <option value="6">6</option>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                    </select>
                 </nav>
             )}
         </>
