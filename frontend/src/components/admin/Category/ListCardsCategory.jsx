@@ -87,9 +87,9 @@ const ListCardsCategory = ({ settingsList = {
                 </Table.Cell>
                 <Table.Cell>{category.products_count}</Table.Cell>
                 <Table.Cell>
-                    <Button color="light" onClick={() => navigate("/admin/categories/" + category.id)}>
+                    {/* <Button color="light" onClick={() => navigate("/admin/categories/" + category.id)}>
                         <FontAwesomeIcon icon={faEye} />
-                    </Button>
+                    </Button> */}
                     <ModalBase settings={{ type: "delete", titleButton: "Delete", color: "failure" }} sendData={() => deleteCategory(category.id)}>
                         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">

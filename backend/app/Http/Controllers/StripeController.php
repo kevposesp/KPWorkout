@@ -52,6 +52,8 @@ class StripeController extends Controller
 
             foreach ($chart as $product) {
                 $order->products()->attach($product->id, ['quantity' => $product->pivot->quantity]);
+                $product->stock -= $product->pivot->quantity;
+                $product->save();
             }
 
             $user = User::find(auth()->id());
