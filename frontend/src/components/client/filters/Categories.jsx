@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCategory } from '@/hooks/useCategory';
+import { faPlus, faSubtract } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Categories = () => {
     const [categoryFilters, setCategoryFilters] = useState([]);
     const { filters } = useParams();
     const { categories } = useCategory();
     const navigate = useNavigate();
+
+    const [openCategories, setOpenCategories] = useState([]);
+
+    const toggleCategory = category => {
+        setOpenCategories(prev => {
+            if (prev.includes(category)) {
+                return prev.filter(c => c !== category);
+            } else {
+                return [...prev, category];
+            }
+        });
+    };
 
     useEffect(() => {
         if (categoryFilters === undefined) {
@@ -59,8 +73,11 @@ const Categories = () => {
                                 />
                                 <label htmlFor={`cat-${category.id}`} className="text-gray-600 ml-3 cursor-pointer">{category.title}</label>
                                 <div className="ml-auto text-gray-600 text-sm">({category.products_count})</div>
+                                <div className='ms-2 flex items-center p-2 bg-gray-100 hover:bg-gray-300 transition rounded-sm' onClick={() => toggleCategory(category.id)}>
+                                    <FontAwesomeIcon icon={openCategories.includes(category.id) ? faSubtract : faPlus}/>
+                                </div>
                             </div>
-                            {category.children_categories.length > 0 && (
+                            {openCategories.includes(category.id) && category.children_categories.length > 0 && (
                                 <div className="ml-6">
                                     {category.children_categories.map(child => (
                                         <div className="flex items-center" key={child.id}>
