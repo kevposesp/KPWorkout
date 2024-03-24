@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFilter } from '@/hooks/useFilter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faSubtract } from '@fortawesome/free-solid-svg-icons';
 
 const Filters = () => {
     const [filtersAll, setFiltersAll] = useState([]);
     const { filters } = useParams();
     const { filtersHook } = useFilter();
     const navigate = useNavigate();
+
+    const [openCategories, setOpenCategories] = useState([]);
+
+    const toggleCategory = category => {
+        setOpenCategories(prev => {
+            if (prev.includes(category)) {
+                return prev.filter(c => c !== category);
+            } else {
+                return [...prev, category];
+            }
+        });
+    };
 
     useEffect(() => {
         if (filtersAll === undefined) {
@@ -46,8 +60,13 @@ const Filters = () => {
         <div className="divide-y divide-gray-200 space-y-5">
             {Object.entries(filtersHook).map(([category, filters]) => (
                 <div key={category} className='pt-4'>
-                    <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">{category}</h3>
-                    {filters.map(fil => (
+                    <div className='flex mb-3 cursor-pointer'>
+                        <h3 className="text-xl text-gray-800 uppercase font-medium">{category}</h3>
+                        <div className='ms-auto flex items-center px-2 bg-gray-100 hover:bg-gray-300 transition rounded-sm' onClick={() => toggleCategory(category)}>
+                            <FontAwesomeIcon icon={openCategories.includes(category) ? faSubtract : faPlus}/>
+                        </div>
+                    </div>
+                    {openCategories.includes(category) && filters.map(fil => (
                         <div key={fil.id}>
                             <div className="flex items-center">
                                 <input
