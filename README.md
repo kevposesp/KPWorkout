@@ -56,6 +56,71 @@ Para ejecutar este proyecto, necesitarás tener instalado:
 - **Productos:** Lista y gestión de productos.
 - **Pedidos:** Gestión y actualización de pedidos.
 
+### Demo
+    Home
+![Home](doc/assets/gif/Home.gif)
+    
+    Shop
+![Shop](doc/assets/gif/Shop.gif)
+
+    Product
+![Product](doc/assets/images/Product.png)
+
+    Contact
+![Contact](doc/assets/images/Contact.png)
+
+    Login
+![Login](doc/assets/images/Login.png)
+
+    Register
+![Register](doc/assets/images/Register.png)
+
+    Profile
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+  <div style="flex: 33%; max-width: 33%; padding: 5px;">
+    <p>Orders</p>
+    <img src="doc/assets/images/OrdersProfile.png" alt="Descripción de imagen 1" style="width: 100%;">
+  </div>
+  <div style="flex: 33%; max-width: 33%; padding: 5px;">
+    <p>WishList</p>
+    <img src="doc/assets/images/WishList.png" alt="Descripción de imagen 3" style="width: 100%;">
+  </div>
+  <div style="flex: 33%; max-width: 33%; padding: 5px;">
+    <p>Cart</p>
+    <img src="doc/assets/images/Cart.png" alt="Descripción de imagen 2" style="width: 100%;">
+  </div>
+</div>
+
+    CheckOut
+![CheckOut](doc/assets/images/CheckOut.png)
+
+    Payment Stripe
+![PaymentStripe](doc/assets/images/PaymentStripe.png)
+
+    Admin Dashboard
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+  <div style="flex: 50%; max-width: 50%; padding: 5px;">
+    <p>Categories</p>
+    <img src="doc/assets/images/Categories.png" alt="Descripción de imagen 1" style="width: 100%;">
+  </div>
+  <div style="flex: 50%; max-width: 50%; padding: 5px;">
+    <p>Products</p>
+    <img src="doc/assets/images/Products.png" alt="Descripción de imagen 3" style="width: 100%;">
+  </div>
+  <div style="flex: 50%; max-width: 50%; padding: 5px;">
+    <p>Filters</p>
+    <img src="doc/assets/images/Filters.png" alt="Descripción de imagen 2" style="width: 100%;">
+  </div>
+  <div style="flex: 50%; max-width: 50%; padding: 5px;">
+    <p>Orders</p>
+    <img src="doc/assets/images/Orders.png" alt="Descripción de imagen 4" style="width: 100%;">
+  </div>
+</div>
+
+    Admin Product
+![AdminProduct](doc/assets/images/ProductAdmin.png)
+
+
 ## Licencia
 
 Este proyecto se distribuye bajo la licencia MIT, lo que permite a otros usar, modificar y distribuir el software bajo los términos de dicha licencia.

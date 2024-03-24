@@ -116,7 +116,7 @@ const Profile = () => {
                                     <i className="fa-regular fa-heart"></i>
                                     <FontAwesomeIcon icon={faCartShopping} />
                                 </span>
-                                Chart
+                                Cart
                             </a>
                         </div>
 

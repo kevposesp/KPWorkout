@@ -32,6 +32,10 @@ const Pagination = ({ totalPages }) => {
             navigate(`/shop/${filtersString}`);
         } else {
             const filtersObject = { offset: newPage - 1 };
+            if (newLimit) {
+                filtersObject.limit = newLimit;
+                setLimit(newLimit);
+            }
             const filtersString = btoa(JSON.stringify(filtersObject));
             navigate(`/shop/${filtersString}`);
         }
