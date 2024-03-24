@@ -20,7 +20,11 @@ export function UserContext({ children }) {
                         setIsAdmin(data.data.type == 'admin');
                     }
                 })
-                .catch(e => JwtService.destroyToken());
+                .catch(e => { 
+                    JwtService.destroyToken()
+                    setToken(false)
+                    setUser({})
+                 });
         }
     }, [token]);
 

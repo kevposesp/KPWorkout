@@ -23,7 +23,7 @@ const ListCategoriesHome = () => {
                     <div className="relative rounded-sm overflow-hidden group" key={category.id} onClick={() => handleCategory(category.id)}>
                         <img src={category.image} alt="category 1" className="w-full" />
                         <a
-                            className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition">
+                            className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-20 transition cursor-pointer">
                                 {category.title}
                             </a>
                     </div>

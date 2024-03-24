@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from 'flowbite-react'
 import '@/assets/css/template.scss';
 import { useProduct } from '@/hooks/useProduct';
+import { useAuth } from '@/hooks/useAuth';
 
 import Menu from '@/components/client/Menu';
 
@@ -8,7 +10,7 @@ import ProductCard from '@/components/client/cards/ProductCard';
 import ProductCardBanner from '@/components/client/cards/ProductCardBanner';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faGripVertical, faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faList, faGripVertical, faFilter, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Search from '@/components/client/filters/Search';
 import Categories from '@/components/client/filters/Categories';
 import Price from '@/components/client/filters/Price';
@@ -16,13 +18,16 @@ import Order from '@/components/client/filters/Order';
 import Filters from '@/components/client/filters/Filters';
 import Pagination from '@/components/client/filters/Pagination';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonProductCard from '@/components/skeletons/SkeletonProductCard';
 import SkeletonProductCardBanner from '@/components/skeletons/SkeletonProductCardBanner';
 
 const Shop = () => {
 
     const { products, getProductsFiltered, toggleFavorite, totalProducts } = useProduct();
+    const { user } = useAuth()
+
+    const navigate = useNavigate();
 
     const [act, setAct] = useState('-translate-x-full');
     const { filters } = useParams();
@@ -31,7 +36,7 @@ const Shop = () => {
 
     useEffect(() => {
         getProductsFiltered(formatFilters());
-    }, [getProductsFiltered, filters]);
+    }, [getProductsFiltered, filters, user]);
 
     function formatFilters() {
         let res = {};
@@ -45,13 +50,19 @@ const Shop = () => {
         <div className=''>
             <div className='temp'>
                 <Menu />
-                <div className="container text-center lg:!hidden mt-5 ms-5">
+                <div className="container text-center lg:!hidden mt-5 ms-5 flex">
                     <button
                         className="text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 block lg:!hidden"
                         type="button" data-drawer-target="drawer-example" data-drawer-show="drawer-example"
                         aria-controls="drawer-example" onClick={() => setAct('')}>
                         <FontAwesomeIcon icon={faFilter} />
                     </button>
+                    <div className="ms-auto">
+                        <Button color='blue' className='!m-auto' onClick={() => navigate(`/shop/${btoa(JSON.stringify({}))}`)}>
+                            Empty filters
+                            <FontAwesomeIcon icon={faTrash} className='ms-2' />
+                        </Button>
+                    </div>
                 </div>
                 <div className="container grid md:grid-cols-4 grid-cols-2 gap-6 pt-0 pb-5 items-start lg:mt-10">
 
@@ -106,6 +117,13 @@ const Shop = () => {
                             <div className="pt-4">
                                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Price</h3>
                                 <Price />
+                            </div>
+
+                            <div className="pt-4 w-full">
+                                <Button color='blue' className='!m-auto' onClick={() => navigate(`/shop/${btoa(JSON.stringify({}))}`)}>
+                                    Empty filters
+                                    <FontAwesomeIcon icon={faTrash} className='ms-2' />
+                                </Button>
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useImage } from '@/hooks/useImage';
 import { Button } from 'flowbite-react';
 
-function ImageUpload() {
+function ImageUpload({ sendData = true }) {
 
     const { uploadImage } = useImage();
     const [image, setImage] = useState(null);
@@ -20,7 +20,7 @@ function ImageUpload() {
     return (
         <form>
             <input type="file" className='my-5' onChange={handleFileChange} />
-            <Button color="blue" onClick={() => { handleSubmit() }}>
+            <Button color="blue" onClick={() => { handleSubmit(); sendData() }}>
                 Update
             </Button>
         </form>
