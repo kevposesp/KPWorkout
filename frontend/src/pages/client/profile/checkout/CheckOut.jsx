@@ -33,7 +33,7 @@ const CheckOut = () => {
     }
 
     return (
-        <div className="container m-auto grid grid-cols-12 items-start pb-16 pt-4 gap-6">
+        <div className="container m-auto grid grid-cols-12 items-start pb-16 p-4 gap-6">
 
             <div className="col-span-12">
                 <h1 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">

@@ -41,7 +41,7 @@ export default function PaymentPage() {
     <div className="PaymentPage">
       <div className="cont p-6 bg-white rounded-s-lg">
         <a>
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Recarga tu saldo ahora</h5>
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Pay and continue shopping</h5>
         </a>
       </div>
 

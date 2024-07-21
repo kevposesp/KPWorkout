@@ -4,9 +4,9 @@ import ListCardsProducts from '@/components/admin/Products/ListCardsProducts';
 
 const Products = () => {
     return (
-        <div className='container mx-auto mt-10'>
+        <div className='container mx-auto mt-10 p-4 md:p-4'>
 
-            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center md:text-start">
                 Products
             </h1>
 

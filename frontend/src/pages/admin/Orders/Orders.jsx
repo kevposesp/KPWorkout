@@ -31,7 +31,7 @@ const Orders = () => {
                 </Table.Cell>
                 <Table.Cell>{order.status}</Table.Cell>
                 <Table.Cell>{order.products.length}</Table.Cell>
-                <Table.Cell>{order.total_amount.toFixed(2)} €</Table.Cell>
+                <Table.Cell>{order.total_amount.toFixed(2)}€</Table.Cell>
                 <Table.Cell>
                     <Modal settings={settings} sendData={() => updateOrder(order.id, status)}>
 
@@ -63,9 +63,9 @@ const Orders = () => {
     );
 
     return (
-        <div className='container mx-auto mt-10'>
+        <div className='container mx-auto mt-10 p-4 md:p-4'>
 
-            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center md:text-start">
                 Orders
             </h1>
 

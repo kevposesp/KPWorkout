@@ -2,9 +2,9 @@ import React from 'react';
 
 const ProfileSettings = ({ user }) => {
     return (
-        <div className='col-span-9'>
+        <div className='col-span-12 md:col-span-9'>
             <h1>Profile Settings</h1>
-            <div className="col-span-9 grid grid-cols-3 gap-4">
+            <div className="col-span-12 md:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-4">
 
                 <div className="shadow rounded bg-white px-4 pt-6 pb-8">
                     <div className="flex items-center justify-between mb-4">

@@ -60,7 +60,7 @@ const Categories = () => {
         <div className="space-y-2">
             {categories.map(category => (
                 <>
-                    {category.is_leaf && (
+                    {category.is_leaf ? (
                         <div key={category.id}>
                             <div className="flex items-center">
                                 <input
@@ -96,7 +96,7 @@ const Categories = () => {
                                 </div>
                             )}
                         </div>
-                    )}
+                    ) : ''}
                 </>
             ))}
         </div>

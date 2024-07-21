@@ -20,9 +20,9 @@ const ListCardsCategory = ({ settingsList = {
     const navigate = useNavigate();
 
     const [categoryId, setCategoryId] = useState(0);
-    const [title, setTitle] = useState('Proteína Whey');
-    const [description, setDescription] = useState('Compra nuestros polvos de proteína de suero de alta calidad, batidos y mezclas de suplementos diseñados para apoyar el crecimiento y el mantenimiento de tu masa muscular. Nuestra selección incluye suplementos de concentrado de suero, mezclas para ganar peso, snacks de proteínas y mucho más.');
-    const [image, setImage] = useState('https://static.thcdn.com/images/xsmall/webp//productimg/original/10530943-4134889444511789.jpg');
+    const [title, setTitle] = useState('Energy drinks');
+    const [description, setDescription] = useState("Explore our wide range of energy drinks, designed to give you that necessary boost at any time of the day. From classic options to the latest innovations, every sip is packed with energy and flavor, giving you the vitality you need to successfully achieve your goals. Discover your new source of energy and get ready to conquer the day!");
+    const [image, setImage] = useState('https://s1.ppllstatics.com/elcorreo/www/multimedia/2024/01/26/salud27-k3f-U2101354159614FPG-1200x840@El%20Correo.jpg');
     const [parent, setParent] = useState(0);
     const [active, setActive] = useState(false);
 
@@ -38,6 +38,7 @@ const ListCardsCategory = ({ settingsList = {
         }
 
         createCategory(categoryData);
+        getAllCategories();
     }
 
     function setUpdateValues(categ, title, description, img, parent_id) {
@@ -83,7 +84,7 @@ const ListCardsCategory = ({ settingsList = {
                 </Table.Cell>
                 <Table.Cell>{category.title}</Table.Cell>
                 <Table.Cell className='hover:text-blue-500 hover:cursor-pointer' onClick={() => setActive(category.parent_category ? category.parent_category.slug : null)}>
-                    {category.parent_category ? category.parent_category.slug : null}
+                    {category.parent_category ? category.parent_category.slug : 'None'}
                 </Table.Cell>
                 <Table.Cell>{category.products_count}</Table.Cell>
                 <Table.Cell>

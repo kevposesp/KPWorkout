@@ -2,7 +2,7 @@ import {
     FooterIcon
 } from 'flowbite-react';
 import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
-import logo from '@/assets/images/logo.svg';
+import logo from '@/assets/images/app/KPWorkoutSF.webp';
 
 function FooterLayout() {
     return (
@@ -10,7 +10,7 @@ function FooterLayout() {
             <footer className="bg-white py-8 px-10 border-t border-gray-100 mt-5">
                 <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-auto">
                     <div className="col-span-1 space-y-8 mr-2">
-                        <img src={logo} alt="logo" className="w-30" />
+                        <img src={logo} alt="logo" className="w-40 bg-gray-400 rounded-full shadow-md pr-1" />
                         <div className="mr-2">
                             <p className="text-gray-500">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, hic?

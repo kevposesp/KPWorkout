@@ -19,12 +19,12 @@ const ListCardsProducts = ({ settingsList = {
 
     const navigate = useNavigate();
 
-    const [name, setName] = useState('Zapatos');
-    const [description, setDescription] = useState('Compra nuestros polvos de proteína de suero de alta calidad, batidos y mezclas de suplementos diseñados para apoyar el crecimiento y el mantenimiento de tu masa muscular. Nuestra selección incluye suplementos de concentrado de suero, mezclas para ganar peso, snacks de proteínas y mucho más.');
+    const [name, setName] = useState('BCAA Energy');
+    const [description, setDescription] = useState('Quench your thirst with BCAA Energy, with amino acids, B vitamins and caffeine to give you the perfect energy boost2,3 at any time of the day. In addition, it does not contain sugar or carbohydrates, and is available in different very refreshing fruity flavors.');
     const [price, setPrice] = useState(10.99);
     const [stock, setStock] = useState(100);
-    const [images, setImages] = useState([]);
-    const [image, setImage] = useState('https://images.unsplash.com/photo-1612830725323-3e3e6e3e3e3e');
+    const [images, setImages] = useState(["https://static.thcdn.com/images/large/webp//productimg/1600/1600/11537723-2554727955869742.jpg", "https://static.thcdn.com/images/large/webp//productimg/1600/1600/11537723-1864727956140441.jpg"]);
+    const [image, setImage] = useState('');
 
     function create() {
         const productData = {
@@ -89,7 +89,7 @@ const ListCardsProducts = ({ settingsList = {
             )}
 
             <div className='m-4'>
-                <ModalBase sendData={() => create()}>
+                <ModalBase sendData={() => create()} settings="{size: 'lg'}">
                     <div className="text-start mb-3">
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">Create Product</h3>
                         <div className='my-6'>

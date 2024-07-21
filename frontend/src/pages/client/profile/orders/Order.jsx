@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import ProductCardOrder from "@/components/client/cards/ProductCardOrder";
 import { useOrder } from "@/hooks/useOrder";
+import { useAuth } from "@/hooks/useAuth";
 import { useParams } from "react-router-dom";
 
 import { convertirFormato } from "@/utils/date";
+import { Avatar } from "flowbite-react";
 
 const Orders = () => {
 
     const { order, getOrder } = useOrder();
+    const { user } = useAuth();
 
     const { id } = useParams();
 
@@ -41,12 +44,6 @@ const Orders = () => {
                                             <p className="text-base leading-4 text-gray-800">Subtotal</p>
                                             <p className="text-base leading-4 text-gray-600">{order.total_amount.toFixed(2)} €</p>
                                         </div>
-                                        {/* <div className="flex justify-between items-center w-full">
-                                    <p className="text-base leading-4 text-gray-800">
-                                        Discount <span className="bg-gray-200 p-1 text-xs font-medium leading-3  text-gray-800">STUDENT</span>
-                                    </p>
-                                    <p className="text-base leading-4 text-gray-600">-$28.00 (50%)</p>
-                                </div> */}
                                         <div className="flex justify-between items-center w-full">
                                             <p className="text-base leading-4 text-gray-800">Envio</p>
                                             <p className="text-base leading-4 text-gray-600">8.00 €</p>
@@ -82,7 +79,7 @@ const Orders = () => {
                             <div className="flex  flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0 ">
                                 <div className="flex flex-col justify-start items-start flex-shrink-0">
                                     <div className="flex justify-center  w-full  md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
-                                        <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
+                                        <Avatar alt="User settings" img={user.image_url} />
                                         <div className=" flex justify-start items-start flex-col space-y-2">
                                             <p className="text-base font-semibold leading-4 text-left text-gray-800">{order.first_name} {order.last_name}</p>
                                             <p className="text-sm leading-5 text-gray-600">{order.phone}</p>

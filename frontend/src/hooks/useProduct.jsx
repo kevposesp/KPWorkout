@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useToastr } from './useToastr';
 import ProductService from '@/services/ProductService';
+import { useNavigate } from 'react-router-dom';
 
 export function useProduct() {
 
@@ -8,6 +9,8 @@ export function useProduct() {
     const [product, setProduct] = useState({})
     const [totalProducts, setTotalProducts] = useState(0)
     const { useCreateToastr } = useToastr();
+
+    const navigate = useNavigate()
 
     const getProducts = useCallback(() => {
         ProductService.Get()
@@ -72,10 +75,16 @@ export function useProduct() {
                     } else {
                         setProducts(products.map(product => product.id === id ? { ...product, is_favorite: !product.is_favorite } : product))
                     }
-                    useCreateToastr({ status: true })
+                    useCreateToastr({ status: true, message: data.message })
                 }
             })
-            .catch(e => console.error(e));
+            .catch(e => {
+                console.error(e)
+                useCreateToastr({ status: true, message: e.response.data.message, error: 'error' })
+                setTimeout(() => {
+                    navigate('/auth/login')
+                }, 2500);
+            });
     }, [products]);
 
     const deleteProduct = useCallback((id) => {

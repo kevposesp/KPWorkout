@@ -170,6 +170,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         \Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        BeyondCode\ErdGenerator\ErdGeneratorServiceProvider::class
     ])->toArray(),
 
     /*

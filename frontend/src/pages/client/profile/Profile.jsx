@@ -44,8 +44,8 @@ const Profile = () => {
     return (
         <div className=''>
             <Menu />
-            <div className="container grid grid-cols-12 items-start gap-6 pt-4 pb-16 m-auto mt-10">
-                <div className="col-span-3">
+            <div className="container grid grid-cols-12 items-start gap-6 pt-4 pb-16 m-auto mt-10 px-2 md:px-0">
+                <div className="col-span-12 md:col-span-3">
                     <div className="px-4 py-3 shadow flex items-center gap-4">
                         
                         <ModalUpdateImageProfile user={user} />
@@ -81,15 +81,6 @@ const Profile = () => {
                                 </span>
                                 My order history
                             </a>
-                            {/* <a href="#" className="relative hover:text-primary block capitalize transition">
-                                My returns
-                            </a>
-                            <a href="#" className="relative hover:text-primary block capitalize transition">
-                                My Cancellations
-                            </a>
-                            <a href="#" className="relative hover:text-primary block capitalize transition">
-                                My reviews
-                            </a> */}
                         </div>
 
                         <div className="space-y-1 pl-8 pt-4">

@@ -16,7 +16,7 @@ const ModalUpdateImageProfile = ({ user }) => {
                     </div>
                 </div>
             </div>
-            <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+            <Modal show={openModal} size="md" className='justify-center' onClose={() => setOpenModal(false)} popup>
                 <Modal.Header />
                 <Modal.Body>
                     <div>

@@ -11,7 +11,8 @@ function ModalComponent({
     classButton: false,
     divClass: 'text-center',
     okkayButton: 'Yes, I\'m sure',
-    closeButton: 'No, cancel'
+    closeButton: 'No, cancel',
+    size: 'md'
   }
 }) {
 
@@ -33,7 +34,7 @@ function ModalComponent({
       <Button color={settingsModal.color} className={clsButton} onClick={() => setOpenModal(true)}>
         {settingsModal.titleButton}
       </Button>
-      <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+      <Modal show={openModal} size={settings.size} onClose={() => setOpenModal(false)} popup>
         <Modal.Header />
         <Modal.Body>
           <div className={settingsModal.divClass}>

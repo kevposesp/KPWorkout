@@ -2,6 +2,7 @@ import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import './Header.scss'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import logo from '@/assets/images/app/KPWorkoutSF.webp';
 
 function Header() {
 
@@ -20,8 +21,8 @@ function Header() {
     return (
         <Navbar fluid rounded>
             <Navbar.Brand>
-                {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="TrailBlaze Logo" /> */}
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white cursor-pointer" onClick={redirects.home}>KP WorkOut</span>
+                <img src={logo} className="h-12 sm:h-16 bg-gray-400 rounded-full shadow-md" alt="KPWorkOut Logo" />
+                <span className="ms-3 self-center whitespace-nowrap text-xl font-semibold dark:text-white cursor-pointer" onClick={redirects.home}>KP WorkOut</span>
             </Navbar.Brand>
             <div className="flex md:order-2">
                 {Object.entries(user).length > 0 ? (

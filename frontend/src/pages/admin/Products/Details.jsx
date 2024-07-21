@@ -46,7 +46,7 @@ const ProductDetails = () => {
 
 
     return (
-        <div className='container mx-auto mt-10'>
+        <div className='container mx-auto mt-10 p-4 md:p-0'>
             {Object.keys(product).length > 0 && (
                 <Card >
                     <div className="lg:flex items-start justify-center py-12 2xl:px-20 lg:px-6 px-4">

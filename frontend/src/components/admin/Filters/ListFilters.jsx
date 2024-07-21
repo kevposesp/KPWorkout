@@ -132,7 +132,7 @@ const ListFilters = ({ settingsList = {
             <div className='m-4'>
                 <ModalBase sendData={() => create()}>
                     <div className="text-start mb-3">
-                        <h3 className="text-xl font-medium text-gray-900 dark:text-white">Create Category</h3>
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-white">Create filter</h3>
                         <div className='my-6'>
                             <div className="mb-2 block">
                                 <Label htmlFor="title" value="Title" />
